@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simon Sobti — computational biologist</title>
+<meta name="description" content="Computational biologist, PhD UCSF. Multi-omics, single-cell, and machine learning for cancer target discovery — from bench to Nextflow to model.">
+<meta name="author" content="Simon Sobti">
+<link rel="canonical" href="https://ssobt.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ssobt.github.io/">
+<meta property="og:title" content="Simon Sobti — computational biologist">
+<meta property="og:description" content="Multi-omics, single-cell, and machine learning for cancer target discovery. PhD, UCSF. Two co-first-author preprints and two open-source R packages.">
+<meta property="og:image" content="https://ssobt.github.io/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+
+<a class="skip-link" href="#work">Skip to content</a>
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="topbar__mark" href="#top">Simon&nbsp;Sobti<span class="dot">.</span></a>
+    <nav class="topbar__nav" aria-label="Sections">
+      <a href="#work"><span class="topbar__n">01</span>work</a>
+      <a href="#explore"><span class="topbar__n">02</span>explore</a>
+      <a href="#stack"><span class="topbar__n">03</span>stack</a>
+      <a href="#publications"><span class="topbar__n">04</span>publications</a>
+      <a href="#about"><span class="topbar__n">05</span>about</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero shell">
+    <div class="hero__grid">
+      <div>
+        <p class="hero__eyebrow">Computational biologist · PhD, UCSF</p>
+        <h1 class="hero__name">Simon Sobti</h1>
+        <p class="hero__role">
+          multi-omics<span class="sep">·</span>single-cell<span class="sep">·</span>machine learning
+        </p>
+
+        <p class="hero__pitch">
+          I turn high-dimensional genomics into <strong>therapeutic targets</strong> —
+          from the bench, through the pipeline, to the model.
+        </p>
+
+        <div class="stats" role="list">
+          <div class="stat" role="listitem">
+            <span class="stat__n">9+</span>
+            <span class="stat__l">years research</span>
+          </div>
+          <div class="stat" role="listitem">
+            <span class="stat__n">2</span>
+            <span class="stat__l">co-first-author preprints</span>
+          </div>
+          <div class="stat" role="listitem">
+            <span class="stat__n">2</span>
+            <span class="stat__l">open-source R packages</span>
+          </div>
+          <div class="stat" role="listitem">
+            <span class="stat__n">5</span>
+            <span class="stat__l">years at the bench</span>
+          </div>
+        </div>
+
+        <div class="linkrow">
+          <a class="btn btn--primary" href="assets/cv/Simon_Sobti_CV.pdf">CV ↓</a>
+          <a class="btn" href="https://github.com/ssobt" rel="me noopener">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/sushil-sobti" rel="me noopener">LinkedIn</a>
+          <a class="btn" href="mailto:ssobti.mail@gmail.com">Email</a>
+        </div>
+      </div>
+
+      <figure class="hero__figure" aria-hidden="true">
+        <canvas id="hero-canvas"></canvas>
+        <figcaption class="hero__figcap">
+          <span id="hero-figcap-text">loading…</span>
+          <a href="#explore">explore ↓</a>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== 01 · WORK ===================== -->
+  <section class="section shell" id="work">
+    <div class="section__head">
+      <p class="section__num">01</p>
+      <h2 class="section__title">Selected work</h2>
+      <p class="section__lede">
+        Six projects spanning patient cohorts, pooled genetic screens, spatial tissue,
+        and the software written to analyse them. Every claim below links to the
+        preprint, the paper, or the code that produced it.
+      </p>
+    </div>
+
+    <div class="section__body cards reveal">
+
+      <article class="card">
+        <div class="card__top">
+          <span class="card__idx">01</span>
+          <span class="card__year">2026 · co-first author</span>
+        </div>
+        <h3 class="card__title">
+          <a href="projects/ith.html">Chromatin organizers as tuners of intratumoral heterogeneity</a>
+        </h3>
+        <p class="card__result">
+          Screened for regulators of transcriptional noise, then validated
+          <strong>RNF8</strong> and <strong>MIS18A</strong> as drivers of intratumoral
+          heterogeneity across scATAC-seq, scRNA-seq, and TCGA breast cancer —
+          where high heterogeneity tracks with worse survival.
+        </p>
+        <ul class="chips">
+          <li><span class="chip">scATAC-seq</span></li>
+          <li><span class="chip">scRNA-seq</span></li>
+          <li><span class="chip">TCGA</span></li>
+          <li><span class="chip">CRISPRi/a</span></li>
+          <li><span class="chip">survival analysis</span></li>
+        </ul>
+        <p class="card__links">
+          <a href="projects/ith.html" data-internal>Deep dive</a>
+          <a href="https://doi.org/10.64898/2026.04.18.719392" rel="noopener">bioRxiv</a>
+          <a href="https://github.com/ssobt/nbs_txnheterogeneity" rel="noopener">Notebooks</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <span class="card__idx">02</span>
+          <span class="card__year">2025 · co-first author</span>
+        </div>
+        <h3 class="card__title">
+          <a href="projects/decoy-seq.html">Decoy-seq: scalable screening for regulatory small non-coding RNAs</a>
+        </h3>
+        <p class="card__result">
+          A pooled decoy-based screen that makes miRNAs and tRNA fragments
+          <strong>tractable at scale</strong>. Analysis of the Perturb-seq readout
+          assigned functional roles to tRNA fragments previously treated as
+          passive biomarkers in breast cancer.
+        </p>
+        <ul class="chips">
+          <li><span class="chip">Perturb-seq</span></li>
+          <li><span class="chip">small ncRNA</span></li>
+          <li><span class="chip">PyTorch VAE</span></li>
+          <li><span class="chip">pooled screens</span></li>
+        </ul>
+        <p class="card__links">
+          <a href="projects/decoy-seq.html" data-internal>Deep dive</a>
+          <a href="https://doi.org/10.1101/2025.01.25.634869" rel="noopener">bioRxiv</a>
+          <a href="https://github.com/ssobt/nbs_decoyseq" rel="noopener">Notebooks</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <span class="card__idx">03</span>
+          <span class="card__year">R package</span>
+        </div>
+        <h3 class="card__title">
+          <a href="https://github.com/ssobt/VariPath" rel="noopener">VariPath</a>
+        </h3>
+        <p class="card__result">
+          Pathway-shift detection for Perturb-seq. Uses <strong>varimax rotation</strong>
+          of principal component space to recover interpretable, sparsely-loaded
+          components — a higher signal-to-noise ratio for perturbation–pathway
+          association than comparable methods.
+        </p>
+        <ul class="chips">
+          <li><span class="chip">R</span></li>
+          <li><span class="chip">Seurat</span></li>
+          <li><span class="chip">enrichR</span></li>
+          <li><span class="chip">varimax</span></li>
+        </ul>
+        <p class="card__links">
+          <a href="https://github.com/ssobt/VariPath" rel="noopener">Source</a>
+          <a href="https://ssobt.github.io/VariPath/" rel="noopener">Documentation</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <span class="card__idx">04</span>
+          <span class="card__year">R package</span>
+        </div>
+        <h3 class="card__title">
+          <a href="https://github.com/ssobt/txnheterogeneity" rel="noopener">txnheterogeneity</a>
+        </h3>
+        <p class="card__result">
+          Quantifies transcriptional and open-chromatin heterogeneity between
+          conditions — <strong>one interface across bulk RNA-seq, scRNA-seq, and
+          scATAC-seq</strong>, via transcriptome-wide coefficient of variation and
+          PC-space dispersion. Wraps ArchR for ATAC peak calling.
+        </p>
+        <ul class="chips">
+          <li><span class="chip">R</span></li>
+          <li><span class="chip">ArchR</span></li>
+          <li><span class="chip">bulk + sc + ATAC</span></li>
+        </ul>
+        <p class="card__links">
+          <a href="https://github.com/ssobt/txnheterogeneity" rel="noopener">Source</a>
+          <a href="https://ssobt.github.io/txnheterogeneity/" rel="noopener">Documentation</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <span class="card__idx">05</span>
+          <span class="card__year">collaboration</span>
+        </div>
+        <h3 class="card__title">Spatial transcriptomics of adipose tissue</h3>
+        <p class="card__result">
+          Led the spatial analysis of 10x Visium slides from <strong>mouse and vervet
+          monkey</strong> adipose tissue with the Shamsi lab, mapping progenitor states
+          around white adipose that precede shifts in brown adipose content.
+        </p>
+        <ul class="chips">
+          <li><span class="chip">10x Visium</span></li>
+          <li><span class="chip">cross-species</span></li>
+          <li><span class="chip">spatial</span></li>
+        </ul>
+        <p class="card__links">
+          <a href="https://github.com/ssobt/nbs_adipose_spatial" rel="noopener">Notebooks</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="card__top">
+          <span class="card__idx">06</span>
+          <span class="card__year">2024 · Sci Rep</span>
+        </div>
+        <h3 class="card__title">
+          <a href="https://doi.org/10.1038/s41598-024-53999-w" rel="noopener">An inflamed subpopulation drives chemoresistance in TNBC</a>
+        </h3>
+        <p class="card__result">
+          Single-cell dissection of triple-negative breast cancer identified an
+          inflamed subpopulation that survives chemotherapy — and the
+          <strong>drug–target combinations</strong> that re-sensitise it.
+        </p>
+        <ul class="chips">
+          <li><span class="chip">scRNA-seq</span></li>
+          <li><span class="chip">TNBC</span></li>
+          <li><span class="chip">drug response</span></li>
+        </ul>
+        <p class="card__links">
+          <a href="https://doi.org/10.1038/s41598-024-53999-w" rel="noopener">Sci Rep</a>
+        </p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== 02 · EXPLORE ===================== -->
+  <section class="section shell" id="explore">
+    <div class="section__head">
+      <p class="section__num">02</p>
+      <h2 class="section__title">Explore the data</h2>
+      <p class="section__lede">
+        The kind of object I work in every day, rendered live in the browser —
+        no plotting library, about 300 lines of canvas. Hover a cell for its
+        annotations, recolour by perturbation or heterogeneity, click a legend
+        entry to isolate a group, and switch embeddings to watch the cells move.
+      </p>
+    </div>
+
+    <div class="section__body reveal">
+      <div class="explorer" id="explorer">
+
+        <div class="explorer__bar">
+          <div class="ctl">
+            <span class="ctl__label" id="lbl-embed">Embedding</span>
+            <div class="seg" id="explorer-embed" role="group" aria-labelledby="lbl-embed"></div>
+          </div>
+          <div class="ctl">
+            <span class="ctl__label" id="lbl-color">Colour by</span>
+            <div class="seg" id="explorer-color" role="group" aria-labelledby="lbl-color"></div>
+          </div>
+        </div>
+
+        <div class="explorer__stage">
+          <div class="explorer__plot">
+            <canvas id="explorer-canvas" role="img"
+              aria-label="Scatter plot of single cells in a two-dimensional embedding, coloured by the selected annotation. An equivalent data table is available below the figure."></canvas>
+            <div class="tip" id="explorer-tip" role="status" aria-live="polite" data-on="false"></div>
+            <div class="explorer__status" id="explorer-status" data-on="true">
+              <p>Loading cells…</p>
+            </div>
+          </div>
+
+          <div class="explorer__side">
+            <ul class="legend" id="explorer-legend"></ul>
+            <div class="colorbar" id="explorer-colorbar" data-on="false">
+              <div class="colorbar__ramp"></div>
+              <div class="colorbar__ticks"></div>
+            </div>
+          </div>
+        </div>
+
+        <figcaption class="figcap" id="explorer-caption">
+          <b>Figure 1. </b>Single-cell embedding viewer.
+        </figcaption>
+      </div>
+
+      <details class="datatable">
+        <summary>Data table (equivalent to the figure)</summary>
+        <div id="explorer-table"></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================== 03 · STACK ===================== -->
+  <section class="section shell" id="stack">
+    <div class="section__head">
+      <p class="section__num">03</p>
+      <h2 class="section__title">Stack</h2>
+      <p class="section__lede">
+        Organised the way the work actually flows. I have run every one of these
+        layers myself, which is the main reason I can talk to the people generating
+        the data as easily as to the people consuming the model.
+      </p>
+    </div>
+
+    <div class="section__body layers reveal">
+
+      <div class="layer">
+        <p class="layer__name">Bench</p>
+        <div class="layer__body">
+          <p class="layer__note">
+            Five years at the bench before moving to computation — I know how the
+            data was made, and where it breaks.
+          </p>
+          <ul class="chips">
+            <li><span class="chip">CRISPR editing</span></li>
+            <li><span class="chip">molecular cloning</span></li>
+            <li><span class="chip">Illumina NGS library prep</span></li>
+            <li><span class="chip">PAR-CLIP</span></li>
+            <li><span class="chip">cell culture</span></li>
+            <li><span class="chip">confocal / FISH</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="layer">
+        <p class="layer__name">Pipelines</p>
+        <div class="layer__body">
+          <p class="layer__note">
+            Reproducible, containerised, and run on cloud compute rather than a laptop.
+          </p>
+          <ul class="chips">
+            <li><span class="chip chip--accent">Nextflow</span></li>
+            <li><span class="chip">Docker</span></li>
+            <li><span class="chip">AWS Batch</span></li>
+            <li><span class="chip">EC2 · S3</span></li>
+            <li><span class="chip">HPC / SLURM</span></li>
+            <li><span class="chip">Unix / Bash</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="layer">
+        <p class="layer__name">Analysis</p>
+        <div class="layer__body">
+          <p class="layer__note">
+            Single-cell, spatial, bulk, and imaging — across modality, not within one.
+          </p>
+          <ul class="chips">
+            <li><span class="chip chip--accent">Seurat</span></li>
+            <li><span class="chip chip--accent">scanpy</span></li>
+            <li><span class="chip">ArchR</span></li>
+            <li><span class="chip">Signac</span></li>
+            <li><span class="chip">SnapATAC</span></li>
+            <li><span class="chip">10x Visium · CosMx</span></li>
+            <li><span class="chip">CellProfiler · ImageJ</span></li>
+            <li><span class="chip">WGS</span></li>
+            <li><span class="chip">ggplot2</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="layer">
+        <p class="layer__name">Machine learning</p>
+        <div class="layer__body">
+          <p class="layer__note">
+            From classical models chosen on merit to fine-tuning single-cell
+            foundation models.
+          </p>
+          <ul class="chips">
+            <li><span class="chip chip--accent">PyTorch</span></li>
+            <li><span class="chip">Lightning</span></li>
+            <li><span class="chip">variational autoencoders</span></li>
+            <li><span class="chip chip--accent">Geneformer</span></li>
+            <li><span class="chip">Hugging Face</span></li>
+            <li><span class="chip">scikit-learn</span></li>
+            <li><span class="chip">LangChain / RAG</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="layer">
+        <p class="layer__name">Translation</p>
+        <div class="layer__body">
+          <p class="layer__note">
+            The part that decides whether any of the above mattered.
+          </p>
+          <ul class="chips">
+            <li><span class="chip">TCGA survival analysis</span></li>
+            <li><span class="chip">target discovery</span></li>
+            <li><span class="chip">drug-response modelling (GI50)</span></li>
+            <li><span class="chip">clinical metadata integration</span></li>
+            <li><span class="chip">GLM · PCA · curve fitting</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== 04 · PUBLICATIONS ===================== -->
+  <section class="section shell" id="publications">
+    <div class="section__head">
+      <p class="section__num">04</p>
+      <h2 class="section__title">Publications</h2>
+      <p class="section__lede">
+        Two co-first-author preprints and two peer-reviewed papers.
+        I publish as <strong>Sobti S</strong>.
+      </p>
+    </div>
+
+    <div class="section__body reveal">
+      <ol class="pubs">
+
+        <li>
+          <h3 class="pub__title">
+            <a href="https://doi.org/10.64898/2026.04.18.719392" rel="noopener">
+              Systematic identification of chromatin organizers as tuners of intratumoral heterogeneity
+            </a>
+          </h3>
+          <p class="pub__authors">
+            Woo BJ*, <span class="me">Sobti S*</span>, Suh JM, Yousefi H, Garcia K, Zhou S, Borah A, Goodarzi H
+          </p>
+          <p class="pub__venue"><em>bioRxiv</em> · 2026 · doi:10.64898/2026.04.18.719392</p>
+        </li>
+
+        <li>
+          <h3 class="pub__title">
+            <a href="https://doi.org/10.1101/2025.01.25.634869" rel="noopener">
+              Decoy-seq unlocks scalable genetic screening for regulatory small noncoding RNAs
+            </a>
+          </h3>
+          <p class="pub__authors">
+            Choi B*, <span class="me">Sobti S*</span>, Soto LM, Charbonneau T, Sababi A, Navickas A, Najafabadi HS, Goodarzi H
+          </p>
+          <p class="pub__venue"><em>bioRxiv</em> · 2025 · doi:10.1101/2025.01.25.634869</p>
+        </li>
+
+        <li>
+          <h3 class="pub__title">
+            <a href="https://doi.org/10.1038/s41598-024-53999-w" rel="noopener">
+              An inflamed tumor cell subpopulation promotes chemotherapy resistance in triple negative breast cancer
+            </a>
+          </h3>
+          <p class="pub__authors">
+            Jacobo Jacobo M*, Donnella HJ*, <span class="me">Sobti S</span>, Kaushik S, Goga A, Bandyopadhyay S
+          </p>
+          <p class="pub__venue"><em>Scientific Reports</em> · 2024 · 14(1):3694 · doi:10.1038/s41598-024-53999-w</p>
+        </li>
+
+        <li>
+          <h3 class="pub__title">
+            <a href="https://doi.org/10.1038/s41467-019-08803-z" rel="noopener">
+              Decoding the 5′ nucleotide bias of PIWI-interacting RNAs
+            </a>
+          </h3>
+          <p class="pub__authors">
+            Stein CB*, Genzor P*, Mitra S*, Elchert AR*, Ipsaro JJ, Benner L, <span class="me">Sobti S</span>, Su Y, Hammell M, Joshua-Tor L, Haase AD
+          </p>
+          <p class="pub__venue"><em>Nature Communications</em> · 2019 · 10:828 · doi:10.1038/s41467-019-08803-z</p>
+        </li>
+
+      </ol>
+
+      <p class="footnote">* denotes equal contribution.</p>
+
+      <details class="datatable">
+        <summary>Poster presentations (6)</summary>
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <caption class="visually-hidden">Conference poster presentations</caption>
+            <thead>
+              <tr><th scope="col">Presentation</th><th scope="col">Venue</th><th scope="col">Year</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Characterizing constituents and patterns of the piRNA biogenesis machinery</td>
+                <td>Regulatory &amp; Non-Coding RNAs, Cold Spring Harbor</td><td>2018</td>
+              </tr>
+              <tr>
+                <td>Characterization of PIWI-interacting small RNA biogenesis</td>
+                <td>Postbac Poster Day, Bethesda MD</td><td>2017</td>
+              </tr>
+              <tr>
+                <td>Dissecting the 5′U bias of piRNAs</td>
+                <td>NCI Symposium on RNA Biology, Bethesda MD</td><td>2017</td>
+              </tr>
+              <tr>
+                <td>Characterization of PIWI-interacting small RNA biogenesis</td>
+                <td>12th Annual NIDDK Scientific Conference</td><td>2017</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">
+          Plus additional presentations at NIH and NCI meetings — six in total across
+          Cold Spring Harbor, NIH, and NCI venues.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================== 05 · ABOUT ===================== -->
+  <section class="section shell" id="about">
+    <div class="section__head">
+      <p class="section__num">05</p>
+      <h2 class="section__title">About</h2>
+    </div>
+
+    <div class="section__body about reveal">
+      <div class="about__prose">
+        <p>
+          I started in a wet lab. Two years as a postbaccalaureate researcher in
+          <strong>Astrid Haase's lab at the NIH</strong>, making PAR-CLIP libraries and
+          editing <em>Drosophila</em> stem cells with CRISPR, taught me what sequencing
+          data actually is before I ever wrote a pipeline to process it.
+        </p>
+        <p>
+          I did my PhD in <strong>Hani Goodarzi's lab at UCSF</strong>, finishing in 2025.
+          The thesis was about finding targetable transcriptional states in breast
+          cancer — which in practice meant moving between pooled genetic screens,
+          patient cohorts, chromatin accessibility, deep learning, and the occasional
+          microscope, and building the software that tied them together.
+        </p>
+        <p>
+          What I keep coming back to is <strong>heterogeneity</strong>: the fact that
+          genetically identical cancer cells behave differently, that this variability
+          is itself regulated, and that regulating it changes how tumours respond to
+          treatment. Two of my first-author projects are about measuring it and finding
+          what tunes it.
+        </p>
+        <p>
+          I'm looking for computational biology roles where the analysis has to survive
+          contact with real decisions — target selection, trial design, a platform other
+          people depend on. I care about work being reproducible by someone who isn't me.
+        </p>
+      </div>
+
+      <aside class="contact">
+        <p class="contact__h">Contact</p>
+        <ul class="contact__list">
+          <li>
+            <a href="mailto:ssobti.mail@gmail.com" data-copy="ssobti.mail@gmail.com">
+              <span class="k">Email</span><span class="v">ssobti.mail@gmail.com</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/ssobt" rel="me noopener">
+              <span class="k">GitHub</span><span class="v">github.com/ssobt</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/sushil-sobti" rel="me noopener">
+              <span class="k">LinkedIn</span><span class="v">sushil-sobti</span>
+            </a>
+          </li>
+          <li>
+            <a href="assets/cv/Simon_Sobti_CV.pdf">
+              <span class="k">CV</span><span class="v">PDF ↓</span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="shell footer__inner">
+    <p>© <span data-year>2026</span> Simon Sobti · built from scratch, no framework</p>
+    <p class="footer__links">
+      <a href="https://github.com/ssobt/ssobt.github.io" rel="noopener">Source</a>
+      <a href="https://github.com/ssobt" rel="noopener">GitHub</a>
+      <a href="mailto:ssobti.mail@gmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="assets/js/explorer.js"></script>
+<script type="module" src="assets/js/site.js"></script>
+</body>
+</html>

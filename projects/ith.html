@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chromatin organizers as tuners of intratumoral heterogeneity — Simon Sobti</title>
+<meta name="description" content="Screening for regulators of transcriptional noise in breast cancer: RNF8 and MIS18A as tuners of intratumoral heterogeneity, across scATAC-seq, scRNA-seq and TCGA.">
+<link rel="canonical" href="https://ssobt.github.io/projects/ith.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ssobt.github.io/projects/ith.html">
+<meta property="og:title" content="Chromatin organizers as tuners of intratumoral heterogeneity">
+<meta property="og:description" content="RNF8 and MIS18A regulate how variable a tumour's cells are — and that variability tracks with survival.">
+<meta property="og:image" content="https://ssobt.github.io/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="topbar__mark" href="../index.html">Simon&nbsp;Sobti<span class="dot">.</span></a>
+    <nav class="topbar__nav" aria-label="Sections">
+      <a href="../index.html#work"><span class="topbar__n">01</span>work</a>
+      <a href="../index.html#explore"><span class="topbar__n">02</span>explore</a>
+      <a href="../index.html#stack"><span class="topbar__n">03</span>stack</a>
+      <a href="../index.html#publications"><span class="topbar__n">04</span>publications</a>
+      <a href="../index.html#about"><span class="topbar__n">05</span>about</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="shell masthead">
+    <a class="masthead__back" href="../index.html#work">Selected work</a>
+    <p class="masthead__kicker">bioRxiv 2026 · co-first author</p>
+    <h1 class="masthead__title">Chromatin organizers as tuners of intratumoral heterogeneity</h1>
+    <p class="masthead__standfirst">
+      Genetically identical cancer cells do not behave identically. We asked what
+      controls how much they differ — and found chromatin organizers that set the
+      level of transcriptional noise, with consequences for how tumours respond to
+      chemotherapy.
+    </p>
+    <ul class="chips">
+      <li><span class="chip chip--accent">scATAC-seq</span></li>
+      <li><span class="chip chip--accent">scRNA-seq</span></li>
+      <li><span class="chip">CRISPRi / CRISPRa</span></li>
+      <li><span class="chip">TCGA</span></li>
+      <li><span class="chip">survival analysis</span></li>
+      <li><span class="chip">ArchR</span></li>
+    </ul>
+  </div>
+
+  <section class="section shell">
+    <div class="prose">
+
+      <h3>The question</h3>
+      <p>
+        Intratumoral heterogeneity — the variability between cancer cells within a
+        single tumour — is a well-established predictor of poor outcome. The usual
+        reading is that heterogeneity is a <em>consequence</em>: of mutation, of
+        clonal evolution, of microenvironment.
+      </p>
+      <p>
+        We wanted to test a different premise. If heterogeneity is partly
+        <strong>regulated</strong> — if specific genes set how noisy a population's
+        transcriptome is, independent of the population's mean expression — then
+        those genes are targets. Turning the noise down could make a tumour behave
+        more uniformly, and a more uniform tumour is an easier one to treat.
+      </p>
+
+      <h3>Approach</h3>
+      <p>
+        The hard part is measurement. Most differential-expression machinery is built
+        to compare <em>means</em>; we needed to compare <em>dispersion</em>, and to do
+        it consistently across three assays that fail in different ways.
+      </p>
+      <p>
+        So I built the measurement layer first, as
+        <a href="https://github.com/ssobt/txnheterogeneity" rel="noopener">txnheterogeneity</a>:
+        transcriptome-wide coefficient of variation for bulk and single-cell RNA-seq,
+        dispersion in principal-component space as a complementary bulk metric, and —
+        wrapping <a href="https://www.archrproject.com" rel="noopener">ArchR</a> for peak
+        calling — the same comparison over open chromatin in scATAC-seq. Significance
+        comes from sampled background distributions rather than a parametric assumption,
+        because gene-level CV is not well behaved.
+      </p>
+      <p>
+        With that in place the study ran on three fronts:
+      </p>
+      <ul>
+        <li>
+          <strong>Patient data.</strong> Bulk RNA-seq from hundreds of TCGA breast
+          cancer patients, stratified by expression of candidate regulators, asking
+          which candidates separate high- from low-heterogeneity tumours and whether
+          that split tracks with survival.
+        </li>
+        <li>
+          <strong>Perturbation.</strong> CRISPRi and CRISPRa against the candidates in
+          breast cancer lines, read out by scRNA-seq and scATAC-seq — so we could see
+          whether knocking a gene down or up moved heterogeneity in the direction the
+          patient data predicted, and whether the chromatin and transcriptional
+          signals agreed.
+        </li>
+        <li>
+          <strong>Phenotype.</strong> Whether shifting heterogeneity changed the
+          response to chemotherapy, which is the point of the exercise.
+        </li>
+      </ul>
+
+      <h3>What we found</h3>
+      <p>
+        <strong>RNF8</strong> and <strong>MIS18A</strong> — both chromatin organizers,
+        neither previously characterised this way — behave as tuners of transcriptional
+        heterogeneity. Perturbing them changes the global variability of open chromatin
+        in scATAC-seq, not just expression variability downstream, which places the
+        effect at the chromatin layer rather than in transcriptional output alone.
+      </p>
+      <p>
+        In TCGA, the heterogeneity axis these genes define is associated with worse
+        survival outcomes — the patient signal and the cell-line perturbation point the
+        same way.
+      </p>
+      <p>
+        Separately, both RNF8/MIS18A and the cGAS/STING pathway emerged as targets for
+        improving combinatorial chemotherapy response — RNF8 and MIS18A in combination
+        with 5-FU and cyclophosphamide, cGAS/STING with gemcitabine and doxorubicin.
+      </p>
+
+      <div class="callout">
+        <p>
+          <strong>The part I'd defend hardest:</strong> that the measurement is real and
+          not an artifact of depth. Dispersion metrics are notoriously sensitive to
+          sequencing depth, cell number, and cell-cycle composition — a "more
+          heterogeneous" sample is very often just a differently-covered one. Most of
+          the work in <code>txnheterogeneity</code> is controls: sampled background
+          distributions, gene-retention thresholds, explicit cell-cycle breakdowns, and
+          matched cell counts per condition.
+        </p>
+      </div>
+
+      <h3>What I'd do next</h3>
+      <ul>
+        <li>
+          <strong>Mechanism.</strong> We show RNF8 and MIS18A <em>tune</em> heterogeneity;
+          we do not fully show how. RNF8's role in the DNA-damage response and MIS18A's at
+          the centromere suggest distinct routes, and separating them would need targeted
+          domain mutants rather than whole-gene knockdown.
+        </li>
+        <li>
+          <strong>Beyond cell lines.</strong> The perturbation work is in lines. Organoids
+          or PDX would test whether the same tuning survives a realistic microenvironment.
+        </li>
+        <li>
+          <strong>Prospective, not retrospective.</strong> The TCGA association is
+          retrospective. The real test is whether a heterogeneity score measured before
+          treatment predicts response — that needs a cohort with pre-treatment sequencing
+          and recorded outcomes.
+        </li>
+        <li>
+          <strong>Make the metric portable.</strong> Right now the method is an R package
+          that assumes you have the objects in memory. A Nextflow wrapper taking FASTQs to
+          a heterogeneity report would make it usable by people who are not me.
+        </li>
+      </ul>
+
+      <h3>Artifacts</h3>
+    </div>
+
+    <div class="artifacts">
+      <a class="artifact" href="https://doi.org/10.64898/2026.04.18.719392" rel="noopener">
+        <span class="artifact__k">Preprint</span>
+        <span class="artifact__v">bioRxiv 2026 ↗</span>
+      </a>
+      <a class="artifact" href="https://github.com/ssobt/txnheterogeneity" rel="noopener">
+        <span class="artifact__k">Method</span>
+        <span class="artifact__v">txnheterogeneity ↗</span>
+      </a>
+      <a class="artifact" href="https://github.com/ssobt/nbs_txnheterogeneity" rel="noopener">
+        <span class="artifact__k">Analysis</span>
+        <span class="artifact__v">Notebooks ↗</span>
+      </a>
+      <a class="artifact" href="https://github.com/ssobt/ITH" rel="noopener">
+        <span class="artifact__k">Figures</span>
+        <span class="artifact__v">ITH repo ↗</span>
+      </a>
+    </div>
+
+    <div class="prose" style="margin-top:2rem">
+      <p class="mono">
+        Woo BJ*, Sobti S*, Suh JM, Yousefi H, Garcia K, Zhou S, Borah A, Goodarzi H.
+        <em>Systematic identification of chromatin organizers as tuners of intratumoral
+        heterogeneity.</em> bioRxiv 2026.
+        <br>* equal contribution.
+      </p>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="prose">
+      <h3>Next</h3>
+      <p>
+        <a href="decoy-seq.html">Decoy-seq — scalable screening for regulatory small non-coding RNAs →</a>
+      </p>
+      <p>
+        <a href="../index.html#work">← All selected work</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="shell footer__inner">
+    <p>© <span data-year>2026</span> Simon Sobti · built from scratch, no framework</p>
+    <p class="footer__links">
+      <a href="https://github.com/ssobt/ssobt.github.io" rel="noopener">Source</a>
+      <a href="https://github.com/ssobt" rel="noopener">GitHub</a>
+      <a href="mailto:ssobti.mail@gmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

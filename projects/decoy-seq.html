@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decoy-seq — Simon Sobti</title>
+<meta name="description" content="Decoy-seq: a pooled, decoy-based screen that makes regulatory small non-coding RNAs tractable at scale, read out by Perturb-seq in breast cancer cells.">
+<link rel="canonical" href="https://ssobt.github.io/projects/decoy-seq.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ssobt.github.io/projects/decoy-seq.html">
+<meta property="og:title" content="Decoy-seq: scalable genetic screening for regulatory small noncoding RNAs">
+<meta property="og:description" content="Small non-coding RNAs resist standard knockout screens. Decoys sequester them instead — and make the whole class screenable.">
+<meta property="og:image" content="https://ssobt.github.io/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="topbar__mark" href="../index.html">Simon&nbsp;Sobti<span class="dot">.</span></a>
+    <nav class="topbar__nav" aria-label="Sections">
+      <a href="../index.html#work"><span class="topbar__n">01</span>work</a>
+      <a href="../index.html#explore"><span class="topbar__n">02</span>explore</a>
+      <a href="../index.html#stack"><span class="topbar__n">03</span>stack</a>
+      <a href="../index.html#publications"><span class="topbar__n">04</span>publications</a>
+      <a href="../index.html#about"><span class="topbar__n">05</span>about</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="shell masthead">
+    <a class="masthead__back" href="../index.html#work">Selected work</a>
+    <p class="masthead__kicker">bioRxiv 2025 · co-first author</p>
+    <h1 class="masthead__title">Decoy-seq: screening the un-screenable</h1>
+    <p class="masthead__standfirst">
+      Small non-coding RNAs resist the tools that made CRISPR screens routine. Decoy-seq
+      sequesters them instead of cutting them — which turns an awkward, one-at-a-time
+      class of regulators into something you can screen in a pool.
+    </p>
+    <ul class="chips">
+      <li><span class="chip chip--accent">Perturb-seq</span></li>
+      <li><span class="chip">miRNA · tRNA fragments</span></li>
+      <li><span class="chip">pooled screens</span></li>
+      <li><span class="chip chip--accent">PyTorch VAE</span></li>
+      <li><span class="chip">MDA-MB-231</span></li>
+    </ul>
+  </div>
+
+  <section class="section shell">
+    <div class="prose">
+
+      <h3>The question</h3>
+      <p>
+        Regulatory small non-coding RNAs — microRNAs, and the tRNA-derived fragments that
+        have increasingly turned up as regulators rather than debris — are hard to screen.
+        They are short, they come in families with near-identical sequences, many are
+        processed from loci that encode other things, and knocking out the locus often
+        destroys something you did not mean to touch. The result is a field that has
+        mostly proceeded one molecule at a time.
+      </p>
+      <p>
+        Meanwhile tRNA fragments in particular kept appearing in breast cancer as
+        <em>biomarkers</em> — correlates of disease state with no established function.
+        That is usually a sign the tools are the limiting factor, not the biology.
+      </p>
+
+      <h3>Approach</h3>
+      <p>
+        Rather than destroying the RNA, Decoy-seq removes it from circulation. Tough-decoy
+        constructs present high-affinity binding sites that soak up the target small RNA,
+        inhibiting it without touching its locus. Because the decoy is an expressed,
+        barcoded construct, it behaves like any other pooled-screen element — which makes
+        the whole class amenable to a <strong>Perturb-seq</strong> readout: pool the decoy
+        library, transduce, and sequence single cells so each cell reports both which
+        inhibitor it received and its full transcriptional response.
+      </p>
+      <p>
+        I worked on the computational side: taking the single-cell readout from a library
+        inhibiting miRNAs and tRNA fragments in MDA-MB-231 breast cancer cells, and
+        working out what each perturbation actually did.
+      </p>
+      <p>Two pieces of that were method work rather than analysis:</p>
+      <ul>
+        <li>
+          <strong>A variational autoencoder</strong>, built in PyTorch, for dimensionality
+          reduction across the perturbation library. A VAE's latent space is continuous and
+          probabilistic, which suits a screen where most perturbations do almost nothing and
+          the interesting ones shift cells slightly along shared axes — the regime where
+          discrete clustering tends to either over-split or wash the signal out.
+        </li>
+        <li>
+          <strong><a href="https://github.com/ssobt/VariPath" rel="noopener">VariPath</a></strong>,
+          an R package for the pathway question. Raw principal components of a Perturb-seq
+          matrix are dense and hard to read biologically. Applying a varimax rotation to the
+          component space concentrates loadings onto fewer genes, which makes each component
+          far more interpretable when handed to enrichment — a better signal-to-noise ratio
+          for perturbation-to-pathway association than the comparable approaches we tested.
+        </li>
+      </ul>
+
+      <div class="callout">
+        <p>
+          <strong>Why the decoy design matters analytically:</strong> because inhibition is
+          competitive rather than destructive, effect sizes are graded rather than binary.
+          That is harder to analyse than a clean knockout — there is no on/off to threshold —
+          but it is also closer to the biology, since these regulators act by degree in the
+          first place. It is the main reason the analysis leans on continuous latent
+          representations instead of differential-expression calls per guide.
+        </p>
+      </div>
+
+      <h3>What we found</h3>
+      <p>
+        Decoy-seq works as a screening platform: the pooled decoy library plus a single-cell
+        readout recovers interpretable transcriptional responses across a class of regulators
+        that previously had to be studied individually.
+      </p>
+      <p>
+        The result I find most interesting is about the tRNA fragments. Several that had been
+        treated purely as breast cancer biomarkers turned out to have <strong>functional
+        transcriptional consequences</strong> when inhibited — they are not just correlates of
+        disease state, they are doing something. That reframes a set of molecules from
+        readouts into candidate nodes.
+      </p>
+
+      <h3>What I'd do next</h3>
+      <ul>
+        <li>
+          <strong>Specificity controls at scale.</strong> Decoys can plausibly sequester
+          related sequences within a family. Establishing per-decoy specificity systematically
+          — rather than per-candidate — is the main thing standing between this and routine use.
+        </li>
+        <li>
+          <strong>Beyond one cell line.</strong> Everything here is MDA-MB-231. Whether the
+          tRNA-fragment functions are context-dependent is an open and fairly important question.
+        </li>
+        <li>
+          <strong>Combinatorial decoys.</strong> These regulators act redundantly by design;
+          single inhibition likely understates their contribution. Pairwise decoys are a
+          natural extension the pooled format already supports.
+        </li>
+        <li>
+          <strong>Foundation-model priors.</strong> I have since fine-tuned Geneformer for
+          perturbation inference on in-house data. Using a pre-trained single-cell model to
+          prioritise which perturbations are worth deep characterisation would make the next
+          screen cheaper.
+        </li>
+      </ul>
+
+      <h3>Artifacts</h3>
+    </div>
+
+    <div class="artifacts">
+      <a class="artifact" href="https://doi.org/10.1101/2025.01.25.634869" rel="noopener">
+        <span class="artifact__k">Preprint</span>
+        <span class="artifact__v">bioRxiv 2025 ↗</span>
+      </a>
+      <a class="artifact" href="https://github.com/ssobt/VariPath" rel="noopener">
+        <span class="artifact__k">Method</span>
+        <span class="artifact__v">VariPath ↗</span>
+      </a>
+      <a class="artifact" href="https://github.com/ssobt/nbs_decoyseq" rel="noopener">
+        <span class="artifact__k">Analysis</span>
+        <span class="artifact__v">Notebooks ↗</span>
+      </a>
+      <a class="artifact" href="../index.html#explore">
+        <span class="artifact__k">Viewer</span>
+        <span class="artifact__v">Explore the data →</span>
+      </a>
+    </div>
+
+    <div class="prose" style="margin-top:2rem">
+      <p class="mono">
+        Choi B*, Sobti S*, Soto LM, Charbonneau T, Sababi A, Navickas A, Najafabadi HS,
+        Goodarzi H. <em>Decoy-seq unlocks scalable genetic screening for regulatory small
+        noncoding RNAs.</em> bioRxiv 2025.
+        <br>* equal contribution.
+      </p>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="prose">
+      <h3>Next</h3>
+      <p>
+        <a href="ith.html">Chromatin organizers as tuners of intratumoral heterogeneity →</a>
+      </p>
+      <p>
+        <a href="../index.html#work">← All selected work</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="shell footer__inner">
+    <p>© <span data-year>2026</span> Simon Sobti · built from scratch, no framework</p>
+    <p class="footer__links">
+      <a href="https://github.com/ssobt/ssobt.github.io" rel="noopener">Source</a>
+      <a href="https://github.com/ssobt" rel="noopener">GitHub</a>
+      <a href="mailto:ssobti.mail@gmail.com">Email</a>
+    </p>
+  </div>
+</footer>
+
+<script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>
