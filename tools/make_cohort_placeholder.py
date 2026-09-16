@@ -45,8 +45,13 @@ def dim_sd(i: int) -> float:
 # `centroidP` is Figure 1D (two-sided Wilcoxon signed-rank on distance from
 # quartile centroid); `hr` / `survP` are Figure 6C (METABRIC, log-rank).
 GENES = [
-    {"key": "RNF8",     "role": "candidate", "centroidP": "3e-12",   "hr": 1.24, "survP": "0.01"},
-    {"key": "MIS18A",   "role": "candidate", "centroidP": "5.8e-11", "hr": 1.75, "survP": "<0.001"},
+    # Figure 1D panel order is ambiguous in the PDF's text layer, but two
+    # independent sources agree: the paper emits "P = 3e-12" immediately
+    # before the MIS18A/ADORA2B panel row, and txnheterogeneity's own README
+    # figure — plot_bulk_het(stratifier_gene = "MIS18A") — is annotated
+    # P = 3e-12. So 3e-12 is MIS18A, not RNF8.
+    {"key": "RNF8",     "role": "candidate", "centroidP": "5.8e-11", "hr": 1.24, "survP": "0.01"},
+    {"key": "MIS18A",   "role": "candidate", "centroidP": "3e-12",   "hr": 1.75, "survP": "<0.001"},
     {"key": "ADORA2B",  "role": "control",   "centroidP": "0.17",    "hr": 1.09, "survP": "0.34"},
     {"key": "ARHGEF5",  "role": "control",   "centroidP": "0.5",     "hr": 0.72, "survP": "<0.001"},
 ]
