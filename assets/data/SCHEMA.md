@@ -77,9 +77,10 @@ The export scripts emit **only** coordinates and the label columns you name
 explicitly. They never touch the counts matrix. Before publishing, confirm:
 
 - No cell barcodes, sample IDs, or patient identifiers — not even hashed.
-- No patient-derived data. Use **cell-line** data (Perturb-seq, CRISPRi, scATAC).
-  Individual-level TCGA expression is dbGaP-controlled; a public web page is
-  not a permitted destination for it.
+- **TCGA correction:** gene expression quantification from the GDC is *open
+  access*; the controlled tier is raw sequence and germline variants. Publishing
+  PCA coordinates derived from TCGA expression is fine — it is what the paper
+  does. Just never emit TCGA barcodes alongside them.
 - Label levels are names you are willing to publish (`RNF8-Ci` is fine;
   `patient_04_pretreatment` is not).
 
@@ -88,3 +89,57 @@ explicitly. They never touch the counts matrix. Before publishing, confirm:
 ```bash
 python3 tools/validate_embedding.py assets/data/embedding.json
 ```
+
+
+---
+
+# `cohort.json` — patient-cohort figure
+
+The figure in §02 step 01 reads `assets/data/cohort.json`. Produce it with
+`tools/export_cohort.R` (real data) or `tools/make_cohort_placeholder.py`
+(synthetic stand-in).
+
+```jsonc
+{
+  "meta": {
+    "n": 1200,
+    "cohort": "TCGA-BRCA",
+    "synthetic": false,
+    "dims": 50,                    // PCs used for the distance metric
+    "caption": "…",                // rendered as the figure legend
+    "published": { "citation": "…", "doi": "10.64898/…" }
+  },
+
+  // PC1/PC2 only, flat and interleaved: [x0,y0,x1,y1,…], length 2n.
+  "coords": { "pc": [12.4, -3.1, …] },
+
+  // Order of the gene selector, left to right.
+  "geneOrder": ["RNF8", "MIS18A", "ADORA2B", "ARHGEF5"],
+
+  "genes": {
+    "RNF8": {
+      "label": "RNF8",
+      "role": "candidate",         // "candidate" | "control"
+      "expression": [ … ],         // length n, tooltip only
+      "quartile":   [ 0|1|2, … ],  // 0 = bottom, 1 = middle 50%, 2 = top
+      "distance":   [ … ],         // length n, distance to own group centroid
+      "published": {               // shown as a cited annotation, not computed
+        "centroidP": "3e-12",
+        "hr": 1.24,
+        "survP": "0.01"
+      }
+    }
+  }
+}
+```
+
+## Rules
+
+| Rule | Why |
+|---|---|
+| Include at least one gene with `role: "control"`. | A quartile split of *any* gene yields two groups; the control is what shows the effect is specific. The figure labels controls in the selector. |
+| `distance` is measured to the patient's **own quartile group's** centroid, not the cohort centroid. | That is the published metric. Measuring to a shared centroid conflates spread with group separation. |
+| `published` values are **citations, not computations**. | The figure prints them under "Published result for this gene" and attributes them. If the cloud is synthetic, the live stats and the cited stats must stay visibly distinct. |
+| Never emit patient barcodes. | The exporter writes anonymous indices; keep it that way. |
+
+At 1,200 patients and four genes the file is roughly **80 KB** raw.

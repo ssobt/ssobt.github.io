@@ -257,61 +257,204 @@
     </div>
   </section>
 
-  <!-- ===================== 02 · EXPLORE ===================== -->
+  <!-- ===================== 02 · THE ARC ===================== -->
   <section class="section shell" id="explore">
     <div class="section__head">
       <p class="section__num">02</p>
-      <h2 class="section__title">Explore the data</h2>
+      <h2 class="section__title">From a patient cohort to a drug target</h2>
       <p class="section__lede">
-        The kind of object I work in every day, rendered live in the browser —
-        no plotting library, about 300 lines of canvas. Hover a cell for its
-        annotations, recolour by perturbation or heterogeneity, click a legend
-        entry to isolate a group, and switch embeddings to watch the cells move.
+        This is the actual path of the chromatin-organizer study — public patient
+        data in, a therapeutic target out, with wet-lab collaboration in the middle.
+        The two figures are live: hand-built against canvas, no plotting library.
+        Try the negative controls.
       </p>
     </div>
 
-    <div class="section__body reveal">
-      <div class="explorer" id="explorer">
+    <div class="section__body">
 
-        <div class="explorer__bar">
-          <div class="ctl">
-            <span class="ctl__label" id="lbl-embed">Embedding</span>
-            <div class="seg" id="explorer-embed" role="group" aria-labelledby="lbl-embed"></div>
-          </div>
-          <div class="ctl">
-            <span class="ctl__label" id="lbl-color">Colour by</span>
-            <div class="seg" id="explorer-color" role="group" aria-labelledby="lbl-color"></div>
-          </div>
+      <!-- ---------- step 1 ---------- -->
+      <div class="step reveal">
+        <p class="step__label">Step 01 · Public patient data</p>
+        <h3 class="step__title">Ask 1,200 tumours which genes track with heterogeneity</h3>
+        <div class="step__text">
+          <p>
+            Start with TCGA breast cancer RNA-seq and ask an unusual question of it.
+            Not <em>which genes are higher in aggressive tumours</em> — that question has
+            been asked exhaustively — but <strong>which genes, when highly expressed,
+            come with a more variable transcriptome across patients</strong>.
+          </p>
+          <p>
+            For every chromatin organizer, split the cohort into top and bottom
+            expression quartiles and compare genome-wide transcript coefficient of
+            variation between the groups, against an empirical null built from 50
+            random patient groupings. 41 candidates cleared a <code>z &gt; 2.5</code>
+            cutoff under both quartile and quintile splits.
+          </p>
+          <p>
+            The figure below is how we visualised it: project patients into PC space
+            and measure how far each sits from its own group's centroid.
+          </p>
         </div>
-
-        <div class="explorer__stage">
-          <div class="explorer__plot">
-            <canvas id="explorer-canvas" role="img"
-              aria-label="Scatter plot of single cells in a two-dimensional embedding, coloured by the selected annotation. An equivalent data table is available below the figure."></canvas>
-            <div class="tip" id="explorer-tip" role="status" aria-live="polite" data-on="false"></div>
-            <div class="explorer__status" id="explorer-status" data-on="true">
-              <p>Loading cells…</p>
-            </div>
-          </div>
-
-          <div class="explorer__side">
-            <ul class="legend" id="explorer-legend"></ul>
-            <div class="colorbar" id="explorer-colorbar" data-on="false">
-              <div class="colorbar__ramp"></div>
-              <div class="colorbar__ticks"></div>
-            </div>
-          </div>
-        </div>
-
-        <figcaption class="figcap" id="explorer-caption">
-          <b>Figure 1. </b>Single-cell embedding viewer.
-        </figcaption>
       </div>
 
-      <details class="datatable">
-        <summary>Data table (equivalent to the figure)</summary>
-        <div id="explorer-table"></div>
-      </details>
+      <div class="figure-block reveal">
+        <div class="explorer" id="cohort">
+          <div class="explorer__bar">
+            <div class="ctl">
+              <span class="ctl__label" id="lbl-gene">Stratify by</span>
+              <div class="seg" id="cohort-gene" role="group" aria-labelledby="lbl-gene"></div>
+            </div>
+            <div class="ctl">
+              <span class="ctl__label" id="lbl-view">View</span>
+              <div class="seg" id="cohort-view" role="group" aria-labelledby="lbl-view"></div>
+            </div>
+          </div>
+
+          <div class="explorer__stage">
+            <div class="explorer__plot">
+              <canvas id="cohort-canvas" role="img"
+                aria-label="Scatter of breast tumours in principal component space, coloured by whether the patient falls in the bottom or top expression quartile of the selected gene. An equivalent data table is below the figure."></canvas>
+              <div class="tip" id="cohort-tip" role="status" aria-live="polite" data-on="false"></div>
+              <div class="explorer__status" id="cohort-status" data-on="true">
+                <p>Loading cohort…</p>
+              </div>
+            </div>
+            <div class="explorer__side">
+              <div class="readout" id="cohort-readout"></div>
+            </div>
+          </div>
+
+          <figcaption class="figcap" id="cohort-caption">
+            <b>Figure 1. </b>Patient cohort spread by expression quartile.
+          </figcaption>
+        </div>
+
+        <details class="datatable">
+          <summary>Data table (equivalent to the figure)</summary>
+          <div id="cohort-table"></div>
+        </details>
+
+        <div class="callout callout--tight">
+          <p>
+            <strong>Why the controls are the important part.</strong> Split a cohort by
+            any gene and you will get two groups; some difference in spread is
+            guaranteed. Switching the selector to <b>ADORA2B</b> or <b>ARHGEF5</b> is
+            what makes the result mean something — same cohort, same method, effect
+            gone. We also ruled out the three boring explanations: copy-number change
+            (CNA and expression variability were uncorrelated), tumour purity
+            (ESTIMATE scores), and a shift in mean expression, which does not move at all.
+          </p>
+        </div>
+      </div>
+
+      <!-- ---------- step 2 ---------- -->
+      <div class="step reveal">
+        <p class="step__label">Step 02 · Wet-lab collaboration</p>
+        <h3 class="step__title">Put the 41 candidates through a functional screen</h3>
+        <div class="step__text">
+          <p>
+            A correlation in patient data is a hypothesis, not a target. The 41
+            candidates went into an <em>in vivo</em> CRISPRi screen run with the bench
+            side of the lab — the step where a computational shortlist either survives
+            contact with biology or does not.
+          </p>
+          <p>
+            Two came through: <strong>RNF8</strong>, a DNA-damage-response ubiquitin
+            ligase, and <strong>MIS18A</strong>, part of the centromeric histone
+            deposition complex. Neither had been connected to transcriptional
+            heterogeneity before.
+          </p>
+        </div>
+      </div>
+
+      <!-- ---------- step 3 ---------- -->
+      <div class="step reveal">
+        <p class="step__label">Step 03 · Single-cell validation</p>
+        <h3 class="step__title">Show the effect at the level it actually operates</h3>
+        <div class="step__text">
+          <p>
+            Patient-level variability is between tumours. The claim was about variability
+            <em>within</em> one. So: CRISPRi and CRISPRa against both genes in breast
+            cancer cells, read out by scRNA-seq and scATAC-seq.
+          </p>
+          <p>
+            Perturbing either gene shifts transcriptomic variability and chromatin
+            accessibility dispersion together — <strong>without changing mean expression
+            or copy number</strong>. That dissociation is the whole argument: these genes
+            tune how noisy a population is, not how much it expresses.
+          </p>
+        </div>
+      </div>
+
+      <div class="figure-block reveal">
+        <div class="explorer" id="explorer">
+          <div class="explorer__bar">
+            <div class="ctl">
+              <span class="ctl__label" id="lbl-embed">Embedding</span>
+              <div class="seg" id="explorer-embed" role="group" aria-labelledby="lbl-embed"></div>
+            </div>
+            <div class="ctl">
+              <span class="ctl__label" id="lbl-color">Colour by</span>
+              <div class="seg" id="explorer-color" role="group" aria-labelledby="lbl-color"></div>
+            </div>
+          </div>
+
+          <div class="explorer__stage">
+            <div class="explorer__plot">
+              <canvas id="explorer-canvas" role="img"
+                aria-label="Scatter plot of single cells in a two-dimensional embedding, coloured by the selected annotation. An equivalent data table is available below the figure."></canvas>
+              <div class="tip" id="explorer-tip" role="status" aria-live="polite" data-on="false"></div>
+              <div class="explorer__status" id="explorer-status" data-on="true">
+                <p>Loading cells…</p>
+              </div>
+            </div>
+
+            <div class="explorer__side">
+              <ul class="legend" id="explorer-legend"></ul>
+              <div class="colorbar" id="explorer-colorbar" data-on="false">
+                <div class="colorbar__ramp"></div>
+                <div class="colorbar__ticks"></div>
+              </div>
+            </div>
+          </div>
+
+          <figcaption class="figcap" id="explorer-caption">
+            <b>Figure 2. </b>Single-cell embedding viewer.
+          </figcaption>
+        </div>
+
+        <details class="datatable">
+          <summary>Data table (equivalent to the figure)</summary>
+          <div id="explorer-table"></div>
+        </details>
+      </div>
+
+      <!-- ---------- step 4 ---------- -->
+      <div class="step reveal">
+        <p class="step__label">Step 04 · Actionable</p>
+        <h3 class="step__title">Make it matter for treatment</h3>
+        <div class="step__text">
+          <p>
+            A regulator of noise is only interesting if turning it changes an outcome.
+            Knocking down either gene <strong>sensitised cells to chemotherapy and
+            reduced lung metastatic burden</strong> <em>in vivo</em>; overexpressing it
+            conferred resistance and promoted progression. The effect reproduced in a
+            second, independently engineered cell line.
+          </p>
+          <p>
+            And it carries to patients: in METABRIC, higher expression of either gene
+            predicts shorter survival — MIS18A at <code>HR = 1.75</code>. Both a
+            prognostic marker and a therapeutic handle, from a question first asked of
+            a public cohort.
+          </p>
+          <p class="step__links">
+            <a href="projects/ith.html" data-internal>Full write-up</a>
+            <a href="https://doi.org/10.64898/2026.04.18.719392" rel="noopener">Preprint</a>
+            <a href="https://github.com/ssobt/txnheterogeneity" rel="noopener">The method, packaged</a>
+          </p>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -534,7 +677,7 @@
     <div class="section__body about reveal">
       <div class="about__prose">
         <figure class="portrait">
-          <img src="assets/img/simon.jpg" width="448" height="560"
+          <img src="assets/img/simon.jpg" width="1000" height="1250"
                alt="Simon Sobti, outdoors on a forested trail."
                loading="lazy" decoding="async">
         </figure>

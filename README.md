@@ -23,10 +23,12 @@ index.html                  single-page main site
 projects/                   per-project deep dives
 assets/css/site.css         design tokens + all styling
 assets/js/scatter.js        canvas embedding renderer (no charting library)
-assets/js/explorer.js       controls bound to the renderer
+assets/js/cohort.js         patient-cohort figure: PC space + distance strip
+assets/js/explorer.js       controls, and the boot for both figures
 assets/js/site.js           page chrome: scrollspy, reveal, copy-email
-assets/data/embedding.json  the cells the viewer draws
-assets/data/SCHEMA.md       format contract for the above
+assets/data/embedding.json  the cells the single-cell viewer draws
+assets/data/cohort.json     the patients the cohort figure draws
+assets/data/SCHEMA.md       format contract for both
 tools/                      data export, validation, image generation
 ```
 
@@ -57,13 +59,16 @@ Both exporters emit **only** reduction coordinates and the metadata columns you
 name explicitly — never the counts matrix, barcodes, or unnamed columns. See
 `assets/data/SCHEMA.md` for the format and for what must never go in the file.
 
-> Use **cell-line** data. Individual-level TCGA expression is dbGaP-controlled
-> and a public web page is not a permitted destination for it.
+> TCGA gene expression from the GDC is **open access** (the controlled tier is
+> raw sequence and germline variants), so publishing PCA coordinates derived
+> from it is fine. Just never emit patient barcodes — the exporters write
+> anonymous indices.
 
 ## Regenerating images
 
 ```bash
 python3 tools/make_placeholder.py          # synthetic embedding.json
+python3 tools/make_cohort_placeholder.py   # synthetic cohort.json
 python3 tools/make_og_image.py             # assets/img/og.svg
 # then rasterise og.svg -> og.png with headless Chrome (see that file's docstring)
 ```

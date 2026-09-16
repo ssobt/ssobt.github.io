@@ -13,8 +13,10 @@ import {
   createScatter, loadEmbedding,
   categoricalColor, viridisGradient,
 } from './scatter.js';
+import { mountCohort, loadCohort } from './cohort.js';
 
 const DATA_URL = new URL('../data/embedding.json', import.meta.url).href;
+const COHORT_URL = new URL('../data/cohort.json', import.meta.url).href;
 
 /* --- small DOM helpers --------------------------------------------------- */
 
@@ -284,6 +286,26 @@ function fail(root, message) {
 }
 
 /* --- boot ---------------------------------------------------------------- */
+
+/* The two figures are independent: one failing must not blank the other. */
+(async function bootCohort() {
+  const root = $('#cohort');
+  if (!root) return;
+  const status = $('#cohort-status', root);
+  try {
+    const data = await loadCohort(COHORT_URL);
+    if (status) status.dataset.on = 'false';
+    mountCohort(data, root);
+  } catch (err) {
+    console.error('[cohort] could not load:', err);
+    if (status) {
+      status.dataset.on = 'true';
+      status.replaceChildren(el('p', null,
+        'The cohort figure could not load its data. The analysis it shows is ' +
+        'described in the text above and in the linked preprint.'));
+    }
+  }
+})();
 
 (async function boot() {
   const status = $('#explorer-status');
