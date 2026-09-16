@@ -32,7 +32,7 @@ Produce it with `tools/export_embedding.R` (Seurat) or `tools/export_embedding.p
   // collapses it onto the 2D embedding. Omit it and the hero starts flat.
   "coords3d": [1.234, -0.881, 0.402, …],
 
-  // Categorical colourings. `values[i]` indexes into `levels`.
+  // Categorical colorings. `values[i]` indexes into `levels`.
   "labelSets": {
     "perturbation": {
       "label":  "Perturbation",          // shown in the UI; defaults to the key
@@ -41,7 +41,7 @@ Produce it with `tools/export_embedding.R` (Seurat) or `tools/export_embedding.p
     }
   },
 
-  // Continuous colourings, rendered on a viridis ramp with a colorbar.
+  // Continuous colorings, rendered on a viridis ramp with a colorbar.
   "scores": {
     "heterogeneity_cv": {
       "label":  "Transcriptional heterogeneity (CV)",
@@ -62,7 +62,7 @@ Produce it with `tools/export_embedding.R` (Seurat) or `tools/export_embedding.p
 | `labelSets` values are **integer indices**, not strings. | Roughly 6× smaller on the wire than repeated label strings. |
 | Round coordinates to 3 decimals. | Beyond that is noise in an embedding, and it inflates the file. |
 | Keep `n` between about 3,000 and 20,000. | Below ~3k the structure looks thin; above ~20k the JSON gets large enough to hurt first paint. |
-| `meta.caption` is required in practice. | It is the figure legend. An unlabelled figure on a scientist's site is a bad look. |
+| `meta.caption` is required in practice. | It is the figure legend. An unlabeled figure on a scientist's site is a bad look. |
 
 ## Size
 

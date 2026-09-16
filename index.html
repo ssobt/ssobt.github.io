@@ -97,7 +97,7 @@
       <h2 class="section__title">Selected work</h2>
       <p class="section__lede">
         Six projects spanning patient cohorts, pooled genetic screens, spatial tissue,
-        and the software written to analyse them. Every claim below links to the
+        and the software written to analyze them. Every claim below links to the
         preprint, the paper, or the code that produced it.
       </p>
     </div>
@@ -242,7 +242,7 @@
         <p class="card__result">
           Single-cell dissection of triple-negative breast cancer identified an
           inflamed subpopulation that survives chemotherapy — and the
-          <strong>drug–target combinations</strong> that re-sensitise it.
+          <strong>drug–target combinations</strong> that re-sensitize it.
         </p>
         <ul class="chips">
           <li><span class="chip">scRNA-seq</span></li>
@@ -291,7 +291,7 @@
             cutoff under both quartile and quintile splits.
           </p>
           <p>
-            The figure below is how we visualised it: project patients into PC space
+            The figure below is how we visualized it: project patients into PC space
             and measure how far each sits from its own group's centroid.
           </p>
         </div>
@@ -302,18 +302,18 @@
           <div class="explorer__bar">
             <div class="ctl">
               <span class="ctl__label" id="lbl-gene">Stratify by</span>
-              <div class="seg" id="cohort-gene" role="group" aria-labelledby="lbl-gene"></div>
+              <div class="seg" id="cohort-gene" role="group" aria-labeledby="lbl-gene"></div>
             </div>
             <div class="ctl">
               <span class="ctl__label" id="lbl-view">View</span>
-              <div class="seg" id="cohort-view" role="group" aria-labelledby="lbl-view"></div>
+              <div class="seg" id="cohort-view" role="group" aria-labeledby="lbl-view"></div>
             </div>
           </div>
 
           <div class="explorer__stage">
             <div class="explorer__plot">
               <canvas id="cohort-canvas" role="img"
-                aria-label="Scatter of breast tumours in principal component space, coloured by whether the patient falls in the bottom or top expression quartile of the selected gene. An equivalent data table is below the figure."></canvas>
+                aria-label="Scatter of breast tumours in principal component space, colored by whether the patient falls in the bottom or top expression quartile of the selected gene. An equivalent data table is below the figure."></canvas>
               <div class="tip" id="cohort-tip" role="status" aria-live="polite" data-on="false"></div>
               <div class="explorer__status" id="cohort-status" data-on="true">
                 <p>Loading cohort…</p>
@@ -391,18 +391,18 @@
           <div class="explorer__bar">
             <div class="ctl">
               <span class="ctl__label" id="lbl-embed">Embedding</span>
-              <div class="seg" id="explorer-embed" role="group" aria-labelledby="lbl-embed"></div>
+              <div class="seg" id="explorer-embed" role="group" aria-labeledby="lbl-embed"></div>
             </div>
             <div class="ctl">
-              <span class="ctl__label" id="lbl-color">Colour by</span>
-              <div class="seg" id="explorer-color" role="group" aria-labelledby="lbl-color"></div>
+              <span class="ctl__label" id="lbl-color">Color by</span>
+              <div class="seg" id="explorer-color" role="group" aria-labeledby="lbl-color"></div>
             </div>
           </div>
 
           <div class="explorer__stage">
             <div class="explorer__plot">
               <canvas id="explorer-canvas" role="img"
-                aria-label="Scatter plot of single cells in a two-dimensional embedding, coloured by the selected annotation. An equivalent data table is available below the figure."></canvas>
+                aria-label="Scatter plot of single cells in a two-dimensional embedding, colored by the selected annotation. An equivalent data table is available below the figure."></canvas>
               <div class="tip" id="explorer-tip" role="status" aria-live="polite" data-on="false"></div>
               <div class="explorer__status" id="explorer-status" data-on="true">
                 <p>Loading cells…</p>
@@ -436,7 +436,7 @@
         <div class="step__text">
           <p>
             A regulator of noise is only interesting if turning it changes an outcome.
-            Knocking down either gene <strong>sensitised cells to chemotherapy and
+            Knocking down either gene <strong>sensitized cells to chemotherapy and
             reduced lung metastatic burden</strong> <em>in vivo</em>; overexpressing it
             conferred resistance and promoted progression. The effect reproduced in a
             second, independently engineered cell line.
@@ -464,7 +464,7 @@
       <p class="section__num">03</p>
       <h2 class="section__title">Stack</h2>
       <p class="section__lede">
-        Organised the way the work actually flows. I have run every one of these
+        Organized the way the work actually flows. I have run every one of these
         layers myself, which is the main reason I can talk to the people generating
         the data as easily as to the people consuming the model.
       </p>
@@ -494,7 +494,7 @@
         <p class="layer__name">Pipelines</p>
         <div class="layer__body">
           <p class="layer__note">
-            Reproducible, containerised, and run on cloud compute rather than a laptop.
+            Reproducible, containerized, and run on cloud compute rather than a laptop.
           </p>
           <ul class="chips">
             <li><span class="chip chip--accent">Nextflow</span></li>
@@ -555,7 +555,7 @@
           <ul class="chips">
             <li><span class="chip">TCGA survival analysis</span></li>
             <li><span class="chip">target discovery</span></li>
-            <li><span class="chip">drug-response modelling (GI50)</span></li>
+            <li><span class="chip">drug-response modeling (GI50)</span></li>
             <li><span class="chip">clinical metadata integration</span></li>
             <li><span class="chip">GLM · PCA · curve fitting</span></li>
           </ul>

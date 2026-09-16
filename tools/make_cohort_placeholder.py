@@ -4,13 +4,13 @@ make_cohort_placeholder.py — generate a SYNTHETIC cohort.json
 
 Stands in for the TCGA-BRCA analysis in Figure 1 of Woo & Sobti et al. (2026)
 until real coordinates are exported with tools/export_cohort.R. The output is
-labelled synthetic in `meta`, which the page renders into the figure legend.
+labeled synthetic in `meta`, which the page renders into the figure legend.
 
 The simulation reproduces the *structure* of the published result, not its
 values:
 
   - 1,200 patients live in a 50-dimensional latent space; dimensions 1-2 are
-    shown as PC1/PC2, exactly as the paper visualises PC space while computing
+    shown as PC1/PC2, exactly as the paper visualizes PC space while computing
     its spread metric across the top 50 PCs.
   - For a *candidate* regulator, expression is coupled to a patient's radial
     position, so top-quartile expressers sit further from their group centroid.
@@ -69,7 +69,7 @@ def main() -> int:
     scale = [math.exp(rng.gauss(0, 0.42)) for _ in range(n)]
     pts = [[rng.gauss(0, dim_sd(d)) * scale[i] for d in range(DIMS)] for i in range(n)]
 
-    # Radial position in the full latent space, standardised.
+    # Radial position in the full latent space, standardized.
     radius = [math.sqrt(sum(v * v for v in p)) for p in pts]
     r_mean = sum(radius) / n
     r_sd = math.sqrt(sum((r - r_mean) ** 2 for r in radius) / n)

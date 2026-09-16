@@ -34,7 +34,7 @@ tools/                      data export, validation, image generation
 
 ## Replacing the demo data
 
-The viewer in §02 currently renders **synthetic placeholder data**, labelled as
+The viewer in §02 currently renders **synthetic placeholder data**, labeled as
 such in its caption. To swap in a real export:
 
 ```bash
@@ -70,7 +70,7 @@ name explicitly — never the counts matrix, barcodes, or unnamed columns. See
 python3 tools/make_placeholder.py          # synthetic embedding.json
 python3 tools/make_cohort_placeholder.py   # synthetic cohort.json
 python3 tools/make_og_image.py             # assets/img/og.svg
-# then rasterise og.svg -> og.png with headless Chrome (see that file's docstring)
+# then rasterize og.svg -> og.png with headless Chrome (see that file's docstring)
 ```
 
 ## Deploying
@@ -83,8 +83,8 @@ at `https://ssobt.github.io`. `.nojekyll` keeps Jekyll out of the way.
 - Header and footer markup is duplicated across the three HTML files on purpose.
   With no build step, duplication is more robust than a runtime include, and it
   keeps the pages working with JavaScript disabled.
-- All colour, spacing, and type decisions live as custom properties at the top of
+- All color, spacing, and type decisions live as custom properties at the top of
   `site.css`. Change them there, not inline.
 - The categorical palette is Okabe–Ito, chosen to stay distinguishable under the
-  common forms of colour vision deficiency. If you add series, extend
-  `CATEGORICAL` in `scatter.js` rather than hard-coding colours.
+  common forms of color vision deficiency. If you add series, extend
+  `CATEGORICAL` in `scatter.js` rather than hard-coding colors.

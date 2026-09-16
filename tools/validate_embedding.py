@@ -122,10 +122,10 @@ def main(argv: list[str]) -> int:
             elif values and (min(values) < rng[0] or max(values) > rng[1]):
                 warnings.append(
                     f"scores.{key}: values fall outside the declared range {rng}; "
-                    f"points will clamp at the ends of the colourbar")
+                    f"points will clamp at the ends of the colorbar")
 
     if not label_sets and not scores:
-        errors.append("no labelSets and no scores — the explorer has nothing to colour by")
+        errors.append("no labelSets and no scores — the explorer has nothing to color by")
 
     # --- meta ---------------------------------------------------------------
     meta = d.get("meta") or {}

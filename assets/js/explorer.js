@@ -44,7 +44,7 @@ function mountHero(data) {
     padding: 26,
   });
 
-  // Colour by the first categorical label set, so the hero is already
+  // Color by the first categorical label set, so the hero is already
   // showing real structure rather than an undifferentiated cloud.
   const firstSet = Object.values(data.labelSets)[0];
   scatter.setData(data, rest);
@@ -77,7 +77,7 @@ function mountExplorer(data) {
   const tableWrap = $('#explorer-table');        // lives outside #explorer
   const capEl = $('#explorer-caption', root);
 
-  /* ---- colour modes: every label set, then every continuous score ---- */
+  /* ---- color modes: every label set, then every continuous score ---- */
 
   const modes = [
     ...Object.values(data.labelSets).map((set) => ({
@@ -88,7 +88,7 @@ function mountExplorer(data) {
     })),
   ];
   if (!modes.length) {
-    fail(root, 'The embedding contains no label sets or scores to colour by.');
+    fail(root, 'The embedding contains no label sets or scores to color by.');
     return;
   }
 
@@ -187,7 +187,7 @@ function mountExplorer(data) {
       const [lo, hi] = mode.score.range;
       tableWrap.append(el('p', 'mono',
         `${mode.label}: ${fmt(data.n)} cells, range ${lo.toFixed(3)} – ${hi.toFixed(3)}, ` +
-        `coloured on a viridis scale from low (dark purple) to high (yellow).`));
+        `colored on a viridis scale from low (dark purple) to high (yellow).`));
       return;
     }
 

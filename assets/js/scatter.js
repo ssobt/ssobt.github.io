@@ -4,11 +4,11 @@
    No dependencies. Handles 5k–50k points at 60fps by doing three things:
 
      1. Canvas 2D, not SVG. SVG stalls past ~2k nodes once hover is involved.
-     2. Draw calls batched by colour — one path per colour, not one per point.
+     2. Draw calls batched by color — one path per color, not one per point.
      3. Hover resolved through a uniform spatial grid (CSR layout), so a
         mousemove costs O(points in a few cells) instead of O(n).
 
-   Coordinates are normalised per embedding into a unit box with a *single*
+   Coordinates are normalized per embedding into a unit box with a *single*
    scale factor for both axes, so the embedding's aspect ratio is preserved —
    a stretched UMAP is a misleading UMAP.
 
@@ -22,7 +22,7 @@
 
 const TAU = Math.PI * 2;
 const GRID = 64;          // spatial grid resolution (GRID × GRID cells)
-const CONT_BINS = 64;     // quantisation bins for continuous colour batching
+const CONT_BINS = 64;     // quantization bins for continuous color batching
 const MAX_DPR = 2;        // cap: 3× backing stores cost a lot for no gain
 const DEPTH_SLICES = 14;  // back-to-front slices during the 3D intro
 
@@ -46,7 +46,7 @@ export function viridis(t) {
          `${Math.round(a[2] + (b[2] - a[2]) * f)})`;
 }
 
-/** CSS gradient string for a colorbar that matches the point colours. */
+/** CSS gradient string for a colorbar that matches the point colors. */
 export function viridisGradient() {
   const stops = VIRIDIS.map((c, i) => {
     const pct = Math.round((i / (VIRIDIS.length - 1)) * 100);
@@ -56,7 +56,7 @@ export function viridisGradient() {
 }
 
 /* Okabe–Ito, reordered so the first few are maximally distinct on dark.
-   Colourblind-safe; cycles if a label set has more levels than colours. */
+   Colorblind-safe; cycles if a label set has more levels than colors. */
 export const CATEGORICAL = [
   '#56B4E9', '#E69F00', '#009E73', '#CC79A7',
   '#F0E442', '#0072B2', '#D55E00', '#8FA7B8',
@@ -73,9 +73,9 @@ const prefersReducedMotion = () =>
   window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
- * Normalise a flat [x0,y0,…] array into a unit box, preserving aspect.
+ * Normalize a flat [x0,y0,…] array into a unit box, preserving aspect.
  */
-function normalise2(flat) {
+function normalize2(flat) {
   const n = flat.length >> 1;
   let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
   for (let i = 0; i < n; i++) {
@@ -99,10 +99,10 @@ function normalise2(flat) {
 }
 
 /**
- * Normalise a flat [x0,y0,z0,…] array into a [-0.5,0.5] cube, preserving
+ * Normalize a flat [x0,y0,z0,…] array into a [-0.5,0.5] cube, preserving
  * aspect across all three axes (so PC variance ratios survive).
  */
-function normalise3(flat) {
+function normalize3(flat) {
   const n = flat.length / 3;
   const lo = [Infinity, Infinity, Infinity];
   const hi = [-Infinity, -Infinity, -Infinity];
@@ -126,7 +126,7 @@ function normalise3(flat) {
 }
 
 /**
- * Uniform spatial grid in CSR form, over normalised [0,1] coordinates.
+ * Uniform spatial grid in CSR form, over normalized [0,1] coordinates.
  * Built once per settled layout; queried on every mousemove.
  */
 function buildGrid(pos) {
@@ -151,7 +151,7 @@ function buildGrid(pos) {
   for (let i = 0; i < n; i++) items[cursor[cellIdx[i]]++] = i;
 
   return {
-    /** Nearest point to (nx, ny) within maxDist (normalised units), or -1. */
+    /** Nearest point to (nx, ny) within maxDist (normalized units), or -1. */
     query(nx, ny, maxDist) {
       const cx = cellOf(nx), cy = cellOf(ny);
       const reach = Math.max(1, Math.ceil(maxDist * GRID));
@@ -214,7 +214,7 @@ export function createScatter(canvas, opts = {}) {
   // 3D intro state
   let intro = null;         // { start, rotateMs, collapseMs, target }
   let depth = null;         // per-point camera depth during the intro
-  let dbStarts = null, dbItems = null, dbCursor = null;   // depth×colour CSR
+  let dbStarts = null, dbItems = null, dbCursor = null;   // depth×color CSR
 
   let cssW = 0, cssH = 0, dpr = 1;
   let side = 0, offX = 0, offY = 0;
@@ -254,9 +254,9 @@ export function createScatter(canvas, opts = {}) {
     return Math.max(1.05, Math.min(r, 3.4));
   }
 
-  /* -- colour assignment -- */
+  /* -- color assignment -- */
 
-  /** Bucket point indices by colour so each colour is one batched path. */
+  /** Bucket point indices by color so each color is one batched path. */
   function buildBatches() {
     if (!data || !colorBy) return null;
     const n = data.n;
@@ -276,7 +276,7 @@ export function createScatter(canvas, opts = {}) {
       };
     }
 
-    // Continuous: quantise into CONT_BINS so we still batch draw calls.
+    // Continuous: quantize into CONT_BINS so we still batch draw calls.
     const sc = colorBy.score;
     const [lo, hi] = sc.range;
     const span = (hi - lo) || 1;
@@ -355,7 +355,7 @@ export function createScatter(canvas, opts = {}) {
     return collapseT >= 1;
   }
 
-  /** Refill the depth × colour CSR buckets for this frame. */
+  /** Refill the depth × color CSR buckets for this frame. */
   function binByDepth(groupOf, nGroups) {
     const n = data.n;
     const bins = DEPTH_SLICES * nGroups;
@@ -540,7 +540,7 @@ export function createScatter(canvas, opts = {}) {
     const nx = (clientX - rect.left - offX) / side;
     const ny = (clientY - rect.top - offY) / side;
     if (nx < -0.05 || nx > 1.05 || ny < -0.05 || ny > 1.05) return -1;
-    // Hit radius in normalised units — a little larger than the dot itself.
+    // Hit radius in normalized units — a little larger than the dot itself.
     return grid.query(nx, ny, (pointRadius() + 5) / side);
   }
 
@@ -674,7 +674,7 @@ export function createScatter(canvas, opts = {}) {
 /* --- data loading -------------------------------------------------------- */
 
 /**
- * Validate and normalise an embedding.json payload.
+ * Validate and normalize an embedding.json payload.
  * Throws with a readable message rather than failing silently — a malformed
  * export should be obvious during development, not a blank box in production.
  */
@@ -697,7 +697,7 @@ export function parseEmbedding(raw) {
     if (!Array.isArray(flat) || flat.length !== n * 2) {
       throw new Error(`"coords.${name}" has ${(flat || []).length >> 1} points, expected ${n}`);
     }
-    embeddings[name] = normalise2(flat);
+    embeddings[name] = normalize2(flat);
   }
 
   // Optional 3-column cloud used only by the hero intro. Its absence is not
@@ -708,7 +708,7 @@ export function parseEmbedding(raw) {
       console.warn(`[scatter] coords3d has ${raw.coords3d.length / 3} points, ` +
                    `expected ${n}; skipping the 3D intro.`);
     } else {
-      coords3d = normalise3(raw.coords3d);
+      coords3d = normalize3(raw.coords3d);
     }
   }
 

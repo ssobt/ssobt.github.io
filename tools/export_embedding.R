@@ -167,7 +167,7 @@ for (col in score_cols) {
 
 caption <- if (nzchar(args$caption)) args$caption else {
   paste0(n, " cells. ", toupper(reductions[length(reductions)]),
-         " embedding; colour by ",
+         " embedding; color by ",
          if (length(label_cols)) label_cols[1] else "cluster", ".")
 }
 

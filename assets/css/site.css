@@ -910,7 +910,7 @@ table.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
   a { color: #000; }
 }
 
-/* --- 17. Colour scheme --------------------------------------------------
+/* --- 17. Color scheme --------------------------------------------------
    No prefers-color-scheme override: this design is committed to dark, and
    `color-scheme: dark` on :root above tells the browser to render form
    controls and scrollbars to match.

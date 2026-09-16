@@ -13,7 +13,7 @@
                  50 PCs, as a jittered strip with median and IQR.
 
    The ring is drawn from 2-D distances and the readout reports the 50-PC
-   metric; each is labelled for what it is, because a ring drawn at a 50-D
+   metric; each is labeled for what it is, because a ring drawn at a 50-D
    radius on a 2-D plot would be a lie.
 
    Only ~1,200 points, so hover is a plain linear scan — no spatial index.
@@ -98,7 +98,7 @@ export function mountCohort(data, root) {
 
   /* -- layout computation -------------------------------------------------- */
 
-  // Normalised PC positions, aspect preserved. Scaled on a robust percentile
+  // Normalized PC positions, aspect preserved. Scaled on a robust percentile
   // range rather than min/max: a couple of extreme tumours otherwise squeeze
   // the whole cohort into the middle few percent of the plot, which both
   // hides the structure and shrinks the dispersion rings to nothing.
@@ -298,7 +298,7 @@ export function mountCohort(data, root) {
       ctx.strokeStyle = q === Q25 ? COL.q25 : COL.q75;
       ctx.lineWidth = 1.2;
       ctx.strokeRect(cx - bw / 2, top, bw, bot - top);
-      // Median in the foreground colour so it reads against the points.
+      // Median in the foreground color so it reads against the points.
       ctx.strokeStyle = '#E6EDF3';
       ctx.lineWidth = 2.6;
       ctx.beginPath();

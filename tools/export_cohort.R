@@ -82,7 +82,7 @@ message("Cohort: ", n, " samples x ", nrow(mat), " genes.")
 if (n < 100) warning("fewer than 100 samples; quartiles will be very small.")
 
 # --- PCA ---------------------------------------------------------------------
-# Log-transform, restrict to the most variable genes, then centre and scale —
+# Log-transform, restrict to the most variable genes, then center and scale —
 # the usual bulk-expression PCA recipe.
 
 expr_mat <- if (args$log) log2(mat + 1) else mat

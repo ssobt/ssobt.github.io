@@ -151,7 +151,7 @@ def main(argv=None) -> int:
 
     # --- assemble ------------------------------------------------------------
     caption = args.caption or (
-        f"{n:,} cells. {short[-1].upper()} embedding; colour by "
+        f"{n:,} cells. {short[-1].upper()} embedding; color by "
         f"{label_cols[0] if label_cols else 'cluster'}."
     )
 

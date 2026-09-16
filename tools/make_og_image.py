@@ -4,7 +4,7 @@ make_og_image.py — build the 1200x630 social preview card.
 
 Draws the card as an SVG, using the real UMAP coordinates from
 assets/data/embedding.json so the preview shows the same structure the site
-does. Rasterise the result with headless Chrome:
+does. Rasterize the result with headless Chrome:
 
     python3 tools/make_og_image.py
     python3 -m http.server 8765 &
@@ -13,7 +13,7 @@ does. Rasterise the result with headless Chrome:
         --screenshot=assets/img/og.png --window-size=1200,630 \\
         http://localhost:8765/assets/img/og.svg
 
-(`qlmanage -t` also rasterises SVG but letterboxes into a square, which
+(`qlmanage -t` also rasterizes SVG but letterboxes into a square, which
 crops the plot panel — use Chrome.)
 
 Re-run both steps whenever the headline copy or the embedding changes.
@@ -46,7 +46,7 @@ def main() -> int:
     ap.add_argument("--data", default="assets/data/embedding.json")
     ap.add_argument("--output", default="assets/img/og.svg")
     ap.add_argument("--label", default="perturbation",
-                    help="labelSet used to colour the dots")
+                    help="labelSet used to color the dots")
     args = ap.parse_args()
 
     with open(args.data) as fh:
@@ -90,7 +90,7 @@ def main() -> int:
     with open(args.output, "w") as fh:
         fh.write(svg)
     print(f"Wrote {args.output} ({round(len(svg) / 1024)} KB). "
-          f"Rasterise it with headless Chrome — see the module docstring.")
+          f"Rasterize it with headless Chrome — see the module docstring.")
     return 0
 
 
