@@ -95,6 +95,12 @@ function mountExplorer(data) {
   let mode = modes[0];
   let active = null;          // Set of visible level indices, or null = all
 
+  // Per-group statistics computed upstream (e.g. CV vs size-matched controls).
+  // Only shown for the label set they were computed for.
+  const gs = data.groupStats || null;
+  const statFor = (setKey, level) =>
+    (gs && gs.appliesTo === setKey && gs.values) ? gs.values[level] : null;
+
   const scatter = createScatter(canvas, {
     interactive: true,
     padding: 22,
@@ -156,8 +162,17 @@ function mountExplorer(data) {
 
       const sw = el('span', 'legend__swatch');
       sw.style.background = categoricalColor(i);
-      btn.append(sw, el('span', 'legend__name', name),
-                 el('span', 'legend__n', fmt(set.counts[i])));
+      btn.append(sw, el('span', 'legend__name', name));
+      const st = statFor(set.key, name);
+      if (st && st.cv_ratio != null) {
+        // Below 1 = less transcriptional variability than the control.
+        const cv = el('span', 'legend__n', `${st.cv_ratio.toFixed(2)}×`);
+        cv.title = `genome-wide CV vs size-matched controls (${st.n_cells} cells)`;
+        if (st.cv_ratio <= 0.95) cv.style.color = 'var(--accent)';
+        btn.append(cv);
+      } else {
+        btn.append(el('span', 'legend__n', fmt(set.counts[i])));
+      }
 
       btn.addEventListener('click', () => { toggleLevel(i); });
       li.append(btn);
@@ -195,7 +210,11 @@ function mountExplorer(data) {
     const table = el('table', 'tbl');
     const thead = el('thead');
     const hr = el('tr');
-    ['Group', 'Cells', '% of total', 'Shown'].forEach((h, i) => {
+    const withStats = !!(gs && gs.appliesTo === set.key);
+    const cols = withStats
+      ? ['Group', 'Cells', 'CV vs control', '% genes down', 'Shown']
+      : ['Group', 'Cells', '% of total', 'Shown'];
+    cols.forEach((h, i) => {
       const th = el('th', i > 0 ? 'num' : null, h);
       th.scope = 'col';
       hr.append(th);
@@ -206,9 +225,16 @@ function mountExplorer(data) {
     set.levels.forEach((name, i) => {
       const tr = el('tr');
       const shown = !active || active.has(i);
+      const st = statFor(set.key, name);
       tr.append(el('td', null, name));
       tr.append(el('td', 'num', fmt(set.counts[i])));
-      tr.append(el('td', 'num', `${((set.counts[i] / data.n) * 100).toFixed(1)}%`));
+      if (withStats) {
+        tr.append(el('td', 'num', st && st.cv_ratio != null
+          ? `${st.cv_ratio.toFixed(3)} ± ${(st.cv_ratio_sd ?? 0).toFixed(3)}` : '—'));
+        tr.append(el('td', 'num', st && st.pct_down != null ? `${st.pct_down.toFixed(1)}%` : '—'));
+      } else {
+        tr.append(el('td', 'num', `${((set.counts[i] / data.n) * 100).toFixed(1)}%`));
+      }
       tr.append(el('td', 'num', shown ? 'yes' : 'no'));
       tbody.append(tr);
     });

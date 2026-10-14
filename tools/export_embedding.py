@@ -52,6 +52,11 @@ def parse_args(argv=None):
     p.add_argument("--source", default="", help="short description of the dataset")
     p.add_argument("--caption", default="", help="figure legend; auto-generated if omitted")
     p.add_argument("--digits", type=int, default=3, help="coordinate rounding")
+    p.add_argument("--group-stats", default="",
+                   help="adata.uns key holding per-group statistics to carry into the "
+                        "JSON as `groupStats` (keyed by level name)")
+    p.add_argument("--group-stats-for", default="",
+                   help="which labelSet those statistics describe")
     return p.parse_args(argv)
 
 
@@ -170,6 +175,18 @@ def main(argv=None) -> int:
         "labelSets": label_sets,
         "scores": scores,
     }
+
+    if args.group_stats:
+        if args.group_stats not in adata.uns:
+            sys.exit(f"--group-stats '{args.group_stats}' not in adata.uns "
+                     f"(have: {', '.join(adata.uns.keys())})")
+        gs = {k: (v if isinstance(v, dict) else dict(v))
+              for k, v in dict(adata.uns[args.group_stats]).items()}
+        payload["groupStats"] = {
+            "appliesTo": args.group_stats_for or (label_cols[0] if label_cols else ""),
+            "values": gs,
+        }
+        print(f"carried {len(gs)} group stat entries", file=sys.stderr)
 
     os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
     with open(args.output, "w") as fh:

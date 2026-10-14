@@ -265,8 +265,9 @@
       <p class="section__lede">
         This is the actual path of the chromatin-organizer study — public patient
         data in, a therapeutic target out, with wet-lab collaboration in the middle.
-        The two figures are live: hand-built against canvas, no plotting library.
-        Try the negative controls.
+        Both figures are live and both are computed from the real data: 1,100 TCGA
+        tumors and 7,474 Perturb-seq cells, rendered straight onto canvas with no
+        plotting library. Try the negative controls.
       </p>
     </div>
 
@@ -336,16 +337,22 @@
 
         <div class="callout callout--tight">
           <p>
-            <strong>Why the controls are the important part.</strong> Split a cohort by
-            any gene and you will get two groups; some difference in spread is
-            guaranteed. Switching the selector to <b>ADORA2B</b> or <b>ARHGEF5</b> is
-            what makes the result mean something — same cohort, same method, effect
-            gone. We also ruled out the three boring explanations: copy-number change
-            (CNA and expression variability were uncorrelated), tumour purity
-            (ESTIMATE scores), and a shift in mean expression, which does not move at all.
+            <strong>Why the null matters more than the p-value.</strong> Split 1,100
+            patients by any gene and you get two groups of about 275. At that size
+            roughly <b>84% of randomly chosen genes</b> reach <code>P &lt; 0.05</code>
+            on this metric — significance is nearly free, so it cannot be the evidence.
+            <b>ADORA2B</b> is the instructive case: <code>P = 2.7 × 10⁻⁵</code> looks
+            decisive, but against a null built from 200 random genes it sits at only
+            the 74th percentile. RNF8 and MIS18A reach the 94th and 96th. That
+            calibration is what separates a candidate from an artifact, and it is how
+            the 41 candidates were nominated in the first place.
+          </p>
+          <p>
+            The boring explanations were ruled out separately: copy-number change
+            (CNA and expression variability are uncorrelated), tumor purity
+            (ESTIMATE scores), and a shift in mean expression, which does not move.
           </p>
         </div>
-      </div>
 
       <!-- ---------- step 2 ---------- -->
       <div class="step reveal">
@@ -353,16 +360,17 @@
         <h3 class="step__title">Put the 41 candidates through a functional screen</h3>
         <div class="step__text">
           <p>
-            A correlation in patient data is a hypothesis, not a target. The 41
-            candidates went into an <em>in vivo</em> CRISPRi screen run with the bench
-            side of the lab — the step where a computational shortlist either survives
-            contact with biology or does not.
+            A correlation in patient data is a hypothesis, not a target. Sixteen of the
+            41 candidates went into CRISPRi and CRISPRa Perturb-seq in MDA-MB-231 cells,
+            run with the bench side of the lab — the step where a computational
+            shortlist either survives contact with biology or does not.
           </p>
           <p>
-            Two came through: <strong>RNF8</strong>, a DNA-damage-response ubiquitin
-            ligase, and <strong>MIS18A</strong>, part of the centromeric histone
-            deposition complex. Neither had been connected to transcriptional
-            heterogeneity before.
+            Intersecting the knockdown and overexpression arms, two came through:
+            <strong>RNF8</strong>, a DNA-damage-response ubiquitin ligase, and
+            <strong>MIS18A</strong>, part of the centromeric histone deposition
+            complex. Neither had been connected to transcriptional heterogeneity
+            before.
           </p>
         </div>
       </div>
@@ -373,15 +381,27 @@
         <h3 class="step__title">Show the effect at the level it actually operates</h3>
         <div class="step__text">
           <p>
-            Patient-level variability is between tumours. The claim was about variability
-            <em>within</em> one. So: CRISPRi and CRISPRa against both genes in breast
-            cancer cells, read out by scRNA-seq and scATAC-seq.
+            Patient-level variability is between tumors. The claim was about variability
+            <em>within</em> one. The figure below is the knockdown arm, processed from
+            the raw count matrix: 7,474 cells, 37 guides collapsed to 16 target genes,
+            each cell carrying both its perturbation and its full transcriptome.
           </p>
           <p>
-            Perturbing either gene shifts transcriptomic variability and chromatin
-            accessibility dispersion together — <strong>without changing mean expression
-            or copy number</strong>. That dissociation is the whole argument: these genes
-            tune how noisy a population is, not how much it expresses.
+            Knocking down either gene <strong>reduces</strong> genome-wide transcript
+            variability — MIS18A to <b>0.92×</b> and RNF8 to <b>0.93×</b> the CV of
+            non-targeting controls, with 70% and 66% of tested genes moving down.
+            Each perturbation is compared against a <em>size-matched</em> control
+            sample, because dispersion estimates scale with cell number; non-targeting
+            cells split against themselves land at <b>1.01×</b>, and that null is what
+            makes the rest of the column readable.
+          </p>
+          <p>
+            Mean expression does not move with it (per-gene median ratio 1.00,
+            <code>r = 0.999</code>) and cell-cycle composition is unchanged — so this is
+            a change in <em>variability</em>, not in magnitude or proliferation. That
+            dissociation is the whole argument. <b>AURKB</b> runs the other way at
+            1.62×, which the paper flags too: perturbing an essential mitotic regulator
+            has effects far beyond the one being measured.
           </p>
         </div>
       </div>

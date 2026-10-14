@@ -24,6 +24,7 @@ projects/                   per-project deep dives
 assets/css/site.css         design tokens + all styling
 assets/js/scatter.js        canvas embedding renderer (no charting library)
 assets/js/cohort.js         patient-cohort figure: PC space + distance strip
+tools/process_crispri.py    10x CRISPRi screen -> processed .h5ad
 assets/js/explorer.js       controls, and the boot for both figures
 assets/js/site.js           page chrome: scrollspy, reveal, copy-email
 assets/data/embedding.json  the cells the single-cell viewer draws
@@ -32,32 +33,72 @@ assets/data/SCHEMA.md       format contract for both
 tools/                      data export, validation, image generation
 ```
 
-## Replacing the demo data
+## The data
 
-The viewer in §02 currently renders **synthetic placeholder data**, labeled as
-such in its caption. To swap in a real export:
+Both figures render **real data**, regenerated from source with the tools below.
+
+| Figure | Data | Built by |
+|---|---|---|
+| §02 step 1 | 1,100 TCGA-BRCA tumors (RNA-Seq V2 RSEM, cBioPortal) | `tools/export_cohort.R` |
+| §02 step 3 | 7,474 MDA-MB-231 CRISPRi Perturb-seq cells | `tools/process_crispri.py` → `tools/export_embedding.py` |
+
+### Patient cohort
 
 ```bash
-# From a Seurat object
-Rscript tools/export_embedding.R \
-  --input      /path/to/seurat.rds \
-  --reductions pca,umap \
-  --labels     guide,Phase \
-  --scores     het_cv \
-  --n          6000 \
-  --source     "MDA-MB-231 CRISPRi Perturb-seq" \
-  --caption    "6,000 cells from ..."
+Rscript tools/export_cohort.R \
+  --input      /path/to/data_RNA_Seq_v2_expression_median.txt \
+  --genes      RNF8,MIS18A \
+  --controls   ADORA2B,ARHGEF5 \
+  --pcs        50 \
+  --null-genes 200 \
+  --cohort     "TCGA-BRCA"
+```
 
-# ...or from an AnnData object
-python3 tools/export_embedding.py --input adata.h5ad --labels guide,phase
+Reads either an `.rds` matrix or a cBioPortal `.txt` directly. Beyond the
+quartile split it builds an **empirical null** from randomly chosen expressed
+genes, because at this cohort size ~84% of arbitrary genes reach `P < 0.05` on
+the spread metric — the z-score against that null is the meaningful number, and
+the figure reports it instead of the p-value.
 
-# Always validate before committing
+### Single-cell screen
+
+```bash
+# raw 10x matrix + guide assignments -> processed .h5ad
+python3 tools/process_crispri.py \
+  --h5     /path/to/filtered_feature_bc_matrix.h5 \
+  --guides /path/to/geomux_output_assignments_CRISPRi.csv \
+  --output crispri.h5ad
+
+# .h5ad -> embedding.json
+python3 tools/export_embedding.py \
+  --input crispri.h5ad --output assets/data/embedding.json \
+  --reductions X_pca,X_umap --cloud X_pca \
+  --labels perturbation,target,phase \
+  --group-stats cv_stats --group-stats-for target
+
 python3 tools/validate_embedding.py assets/data/embedding.json
 ```
 
-Both exporters emit **only** reduction coordinates and the metadata columns you
-name explicitly — never the counts matrix, barcodes, or unnamed columns. See
-`assets/data/SCHEMA.md` for the format and for what must never go in the file.
+`process_crispri.py` also reproduces the paper's Figure 3C–D: genome-wide
+transcript CV per perturbation against a **size-matched** non-targeting control
+sample, on linear relative counts. Both details matter — dispersion scales with
+cell number, and the CV of a log is a different quantity.
+
+Needs scanpy; the environment is not one of the repo's dependencies:
+
+```bash
+mamba create -n sc_export -c conda-forge python=3.11 scanpy anndata h5py \
+  numpy pandas scipy scikit-learn umap-learn python-igraph leidenalg
+```
+
+### Synthetic fallbacks
+
+`tools/make_placeholder.py` and `tools/make_cohort_placeholder.py` generate
+synthetic stand-ins with the same schema, for working on the figures without the
+source data to hand. Their output labels itself as simulated in the caption.
+
+The exporters emit **only** coordinates and the columns you name — never counts,
+barcodes, or patient identifiers.
 
 > TCGA gene expression from the GDC is **open access** (the controlled tier is
 > raw sequence and germline variants), so publishing PCA coordinates derived

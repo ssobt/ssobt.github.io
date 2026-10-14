@@ -753,6 +753,9 @@ export function parseEmbedding(raw) {
     coords3d,
     labelSets,
     scores,
+    // Optional per-group statistics computed upstream, keyed by level name and
+    // tagged with the label set they describe. Passed through untouched.
+    groupStats: raw.groupStats || null,
     current: names[0],
   };
 }

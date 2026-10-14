@@ -33,6 +33,16 @@ const COL = {
 
 const Q25 = 0, MID = 1, Q75 = 2;
 
+/* Survival statistics quoted from Figure 6C of the preprint. These are
+   citations, not values computed from the expression matrix the figure
+   plots — the readout labels them as such. */
+const PUBLISHED = {
+  RNF8:    { hr: 1.24, survP: '0.01' },
+  MIS18A:  { hr: 1.75, survP: '<0.001' },
+  ADORA2B: { hr: 1.09, survP: '0.34' },
+  ARHGEF5: { hr: 0.72, survP: '<0.001' },
+};
+
 const $ = (sel, root = document) => root.querySelector(sel);
 const el = (tag, cls, text) => {
   const n = document.createElement(tag);
@@ -427,9 +437,11 @@ export function mountCohort(data, root) {
   function renderReadout() {
     const G = gene(geneKey);
     const s25 = G.stats[Q25], s75 = G.stats[Q75];
-    const ratio = s75.med / s25.med;
-    const pub = G.g.published;
+    const st = G.g.stats || {};
+    const nm = data.nullModel;
+    const ratio = st.ratio != null ? st.ratio : s75.med / s25.med;
     const isControl = G.g.role === 'control';
+    const pub = PUBLISHED[geneKey];
 
     readout.replaceChildren();
 
@@ -440,35 +452,59 @@ export function mountCohort(data, root) {
     readout.append(head);
 
     const dl = el('dl', 'readout__grid');
-    const pair = (k, v, cls) => {
-      dl.append(el('dt', null, k));
-      dl.append(el('dd', cls, v));
-    };
+    const pair = (k, v, cls) => { dl.append(el('dt', null, k)); dl.append(el('dd', cls, v)); };
     pair('bottom quartile', `n = ${fmt(s25.n)} · median ${s25.med.toFixed(1)}`);
     pair('top quartile', `n = ${fmt(s75.n)} · median ${s75.med.toFixed(1)}`);
-    pair('spread ratio', `${ratio.toFixed(2)}×`, ratio > 1.25 ? 'is-hit' : 'is-null');
+    pair('spread ratio', `${ratio.toFixed(3)}×`);
+    if (st.z != null) {
+      // The number that actually means something at this sample size.
+      pair('vs random-gene null',
+           `z = ${st.z > 0 ? '+' : ''}${st.z.toFixed(2)}  ·  ${st.percentile.toFixed(0)}th pct`,
+           st.z >= 1.3 ? 'is-hit' : 'is-null');
+    }
     readout.append(dl);
 
     const verdict = el('p', 'readout__verdict');
-    verdict.textContent = isControl
-      ? 'The two quartiles are indistinguishable — which is the point of a control.'
-      : 'The top quartile is measurably more dispersed at the same mean expression.';
+    if (st.z != null && nm) {
+      verdict.textContent = st.z >= 1.3
+        ? `Above the ${st.percentile.toFixed(0)}th percentile of the null — the top quartile is ` +
+          `genuinely more dispersed, not just nominally significant.`
+        : `Only the ${st.percentile.toFixed(0)}th percentile of the null. ` +
+          (st.wilcoxonP && parseFloat(st.wilcoxonP) < 0.05
+            ? `Its p-value of ${st.wilcoxonP} looks convincing, but ${nm.pctRandomSignificant}% ` +
+              `of random genes clear P < 0.05 here — so it is unremarkable.`
+            : `Indistinguishable from an arbitrary gene.`);
+    }
     readout.append(verdict);
 
-    const cite = el('div', 'readout__cite');
-    cite.append(el('p', 'readout__citehead', 'Published result for this gene'));
-    const cdl = el('dl', 'readout__grid');
-    const cpair = (k, v) => { cdl.append(el('dt', null, k)); cdl.append(el('dd', null, v)); };
-    cpair('centroid distance', `P = ${pub.centroidP}`);
-    cpair('METABRIC survival', `HR = ${pub.hr} · P = ${pub.survP}`);
-    cite.append(cdl);
-    const src = el('p', 'readout__src');
-    const a = el('a', null, 'Woo & Sobti et al., bioRxiv 2026');
-    a.href = `https://doi.org/${data.meta.published.doi}`;
-    a.rel = 'noopener';
-    src.append(document.createTextNode('Fig. 1C–D, 6C · '), a);
-    cite.append(src);
-    readout.append(cite);
+    // The null model, stated once, because it is what makes the rest readable.
+    if (nm) {
+      const nd = el('div', 'readout__cite');
+      nd.append(el('p', 'readout__citehead', 'Empirical null'));
+      const ndl = el('dl', 'readout__grid');
+      ndl.append(el('dt', null, `${fmt(nm.nGenes)} random genes`));
+      ndl.append(el('dd', null, `ratio ${nm.meanRatio.toFixed(3)} ± ${nm.sdRatio.toFixed(3)}`));
+      ndl.append(el('dt', null, 'reaching P < 0.05'));
+      ndl.append(el('dd', null, `${nm.pctRandomSignificant}% of them`));
+      nd.append(ndl);
+      readout.append(nd);
+    }
+
+    if (pub) {
+      const cite = el('div', 'readout__cite');
+      cite.append(el('p', 'readout__citehead', 'Published, for this gene'));
+      const cdl = el('dl', 'readout__grid');
+      cdl.append(el('dt', null, 'METABRIC survival'));
+      cdl.append(el('dd', null, `HR = ${pub.hr} · P = ${pub.survP}`));
+      cite.append(cdl);
+      const src = el('p', 'readout__src');
+      const a = el('a', null, 'Woo & Sobti et al., bioRxiv 2026');
+      a.href = `https://doi.org/${(data.meta.published || {}).doi || '10.64898/2026.04.18.719392'}`;
+      a.rel = 'noopener';
+      src.append(document.createTextNode('Fig. 6C · '), a);
+      cite.append(src);
+      readout.append(cite);
+    }
 
     renderTable(G);
   }

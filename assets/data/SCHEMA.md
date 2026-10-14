@@ -52,6 +52,24 @@ Produce it with `tools/export_embedding.R` (Seurat) or `tools/export_embedding.p
 }
 ```
 
+### Optional: `groupStats`
+
+Per-level statistics computed upstream, which the figure renders in the legend
+and the data table:
+
+```jsonc
+"groupStats": {
+  "appliesTo": "target",            // the labelSet these describe
+  "values": {
+    "MIS18A": { "cv_ratio": 0.9225, "cv_ratio_sd": 0.0224,
+                "n_cells": 584, "pct_down": 70.5 }
+  }
+}
+```
+
+Carried through by `export_embedding.py --group-stats <uns key> --group-stats-for <labelSet>`.
+Levels without an entry render as `—`.
+
 ## Rules
 
 | Rule | Why |
@@ -99,6 +117,18 @@ The figure in §02 step 01 reads `assets/data/cohort.json`. Produce it with
 `tools/export_cohort.R` (real data) or `tools/make_cohort_placeholder.py`
 (synthetic stand-in).
 
+It also carries a `nullModel` block and per-gene `stats`:
+
+```jsonc
+"nullModel": {
+  "nGenes": 200, "meanRatio": 0.998, "sdRatio": 0.138,
+  "pctRandomSignificant": 84.0      // why the z-score, not the p-value, is reported
+},
+"genes": { "RNF8": { "stats": {
+  "ratio": 1.212, "z": 1.54, "percentile": 93.5, "wilcoxonP": "4.06e-22"
+}}}
+```
+
 ```jsonc
 {
   "meta": {
@@ -139,7 +169,8 @@ The figure in §02 step 01 reads `assets/data/cohort.json`. Produce it with
 |---|---|
 | Include at least one gene with `role: "control"`. | A quartile split of *any* gene yields two groups; the control is what shows the effect is specific. The figure labels controls in the selector. |
 | `distance` is measured to the patient's **own quartile group's** centroid, not the cohort centroid. | That is the published metric. Measuring to a shared centroid conflates spread with group separation. |
-| `published` values are **citations, not computations**. | The figure prints them under "Published result for this gene" and attributes them. If the cloud is synthetic, the live stats and the cited stats must stay visibly distinct. |
+| Report `z` against `nullModel`, not `wilcoxonP`. | At ~275 samples per quartile most arbitrary genes clear P < 0.05; the p-value does not discriminate. The figure shows both and says so. |
+| Published values are **citations, not computations**, and live in `cohort.js`, not in the data file. | Keeping them out of the payload makes the boundary between "measured here" and "published there" structural rather than a matter of labeling. |
 | Never emit patient barcodes. | The exporter writes anonymous indices; keep it that way. |
 
 At 1,200 patients and four genes the file is roughly **80 KB** raw.
