@@ -52,6 +52,9 @@ def parse_args(argv=None):
     p.add_argument("--source", default="", help="short description of the dataset")
     p.add_argument("--caption", default="", help="figure legend; auto-generated if omitted")
     p.add_argument("--digits", type=int, default=3, help="coordinate rounding")
+    p.add_argument("--label-titles", default="",
+                   help="display names for label sets, e.g. "
+                        "\"target=Perturbation,phase=Cell-cycle phase\"")
     p.add_argument("--group-stats", default="",
                    help="adata.uns key holding per-group statistics to carry into the "
                         "JSON as `groupStats` (keyed by level name)")
@@ -125,6 +128,12 @@ def main(argv=None) -> int:
     short = [PRETTY.get(k, k.lstrip("X_")) for k in reductions]
 
     # --- categorical label sets ---------------------------------------------
+    titles = {}
+    for pair in args.label_titles.split(","):
+        if "=" in pair:
+            k, v = pair.split("=", 1)
+            titles[k.strip()] = v.strip()
+
     label_sets = {}
     for col in label_cols:
         s = adata.obs[col].iloc[keep]
@@ -134,7 +143,7 @@ def main(argv=None) -> int:
             print(f"WARNING: '{col}' has {len(levels)} levels; the legend will be "
                   f"unwieldy. Consider collapsing it.", file=sys.stderr)
         label_sets[col] = {
-            "label": col,
+            "label": titles.get(col, col),
             "levels": levels,
             "values": [int(v) for v in cat.cat.codes],  # already zero-indexed
         }

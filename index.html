@@ -303,11 +303,11 @@
           <div class="explorer__bar">
             <div class="ctl">
               <span class="ctl__label" id="lbl-gene">Stratify by</span>
-              <div class="seg" id="cohort-gene" role="group" aria-labeledby="lbl-gene"></div>
+              <div class="seg" id="cohort-gene" role="group" aria-labelledby="lbl-gene"></div>
             </div>
             <div class="ctl">
               <span class="ctl__label" id="lbl-view">View</span>
-              <div class="seg" id="cohort-view" role="group" aria-labeledby="lbl-view"></div>
+              <div class="seg" id="cohort-view" role="group" aria-labelledby="lbl-view"></div>
             </div>
           </div>
 
@@ -321,6 +321,7 @@
               </div>
             </div>
             <div class="explorer__side">
+              <ul class="legend qlegend" id="cohort-legend"></ul>
               <div class="readout" id="cohort-readout"></div>
             </div>
           </div>
@@ -382,9 +383,9 @@
         <div class="step__text">
           <p>
             Patient-level variability is between tumors. The claim was about variability
-            <em>within</em> one. The figure below is the knockdown arm, processed from
-            the raw count matrix: 7,474 cells, 37 guides collapsed to 16 target genes,
-            each cell carrying both its perturbation and its full transcriptome.
+            <em>within</em> one. All 16 candidates went through CRISPRi Perturb-seq;
+            the figure below shows the knockdown arm for the two that came through,
+            processed from the raw count matrix.
           </p>
           <p>
             Knocking down either gene <strong>reduces</strong> genome-wide transcript
@@ -396,12 +397,21 @@
             makes the rest of the column readable.
           </p>
           <p>
+            The figure shows <b>471 cells per group</b> — the size of the smallest —
+            so what you see is a difference in spread rather than in how many cells
+            were collected. That is not a hand-picked view: across 200 random
+            equal-size draws, RNF8 and MIS18A each sit tighter than non-targeting in
+            <b>80–88%</b> of them, and MIS18A in 99.5% of draws in UMAP space.
+            Use the <b>CO</b> control to isolate one knockdown against the control at
+            a time; the rest drops to the background rather than vanishing.
+          </p>
+          <p>
             Mean expression does not move with it (per-gene median ratio 1.00,
             <code>r = 0.999</code>) and cell-cycle composition is unchanged — so this is
             a change in <em>variability</em>, not in magnitude or proliferation. That
-            dissociation is the whole argument. <b>AURKB</b> runs the other way at
-            1.62×, which the paper flags too: perturbing an essential mitotic regulator
-            has effects far beyond the one being measured.
+            dissociation is the whole argument. In the full screen <b>AURKB</b> runs the
+            other way at 1.62×, which the paper flags too: perturbing an essential
+            mitotic regulator has effects far beyond the one being measured.
           </p>
         </div>
       </div>
@@ -411,11 +421,15 @@
           <div class="explorer__bar">
             <div class="ctl">
               <span class="ctl__label" id="lbl-embed">Embedding</span>
-              <div class="seg" id="explorer-embed" role="group" aria-labeledby="lbl-embed"></div>
+              <div class="seg" id="explorer-embed" role="group" aria-labelledby="lbl-embed"></div>
             </div>
             <div class="ctl">
               <span class="ctl__label" id="lbl-color">Color by</span>
-              <div class="seg" id="explorer-color" role="group" aria-labeledby="lbl-color"></div>
+              <div class="seg" id="explorer-color" role="group" aria-labelledby="lbl-color"></div>
+            </div>
+            <div class="ctl">
+              <span class="ctl__label" id="lbl-co">CO</span>
+              <div class="seg" id="explorer-co" role="group" aria-labelledby="lbl-co"></div>
             </div>
           </div>
 

@@ -61,11 +61,20 @@ def parse_args():
     p.add_argument("--min-cells-per-group", type=int, default=50,
                    help="perturbation groups smaller than this are dropped (a centroid "
                         "from a handful of cells gives a meaningless CV)")
+    p.add_argument("--keep-targets", default="",
+                   help="comma-separated targets to retain for DISPLAY (e.g. NT,RNF8,MIS18A). "
+                        "CV statistics are still computed on every group beforehand.")
+    p.add_argument("--balance", action="store_true",
+                   help="downsample each retained group to the smallest, so the figure is "
+                        "not showing a group-size difference as a density difference")
     p.add_argument("--control", default="NT", help="target name of the non-targeting control")
     p.add_argument("--cv-cutoff", type=float, default=0.1,
                    help="gene filter: median relative counts must reach this in both groups")
     p.add_argument("--cv-reps", type=int, default=20,
                    help="random size-matched control draws to average over")
+    p.add_argument("--draw-reps", type=int, default=200,
+                   help="random equal-size draws used to report how often each group "
+                        "is tighter than the control")
     p.add_argument("--seed", type=int, default=42)
     return p.parse_args()
 
@@ -277,13 +286,77 @@ def main() -> int:
         say(f"    {t:<10} median ratio {ratio:.3f}   log-mean r = {rho:.4f}  "
             f"({int(det.sum())} genes)")
 
+    # Snapshot the full cohort before subsetting — the draw-frequency statistic
+    # below needs groups at their true sizes.
+    pre_pca = adata.obsm["X_pca"].copy()
+    pre_umap = adata.obsm["X_umap"].copy()
+    pre_target = np.asarray(adata.obs["target"].values)
+
+    # --- display subset ------------------------------------------------------
+    # Done last, after every statistic above, so the numbers come from all the
+    # cells that exist while the figure shows a balanced view of them.
+    keep = [x.strip() for x in args.keep_targets.split(",") if x.strip()]
+    if keep:
+        missing = [k for k in keep if k not in set(adata.obs["target"])]
+        if missing:
+            sys.exit(f"--keep-targets names absent group(s): {', '.join(missing)}")
+        adata = adata[adata.obs["target"].isin(keep)].copy()
+        say(f"display subset: {', '.join(keep)} ({adata.n_obs:,} cells)")
+
+    if args.balance:
+        counts = adata.obs["target"].value_counts()
+        counts = counts[counts > 0]
+        n_each = int(counts.min())
+        rng2 = np.random.default_rng(args.seed)
+        take = np.concatenate([
+            rng2.choice(np.where(adata.obs["target"].values == g)[0], n_each, replace=False)
+            if counts[g] > n_each else np.where(adata.obs["target"].values == g)[0]
+            for g in counts.index])
+        adata = adata[np.sort(take)].copy()
+        say(f"balanced to {n_each:,} cells per group (seed {args.seed}); "
+            f"{adata.n_obs:,} shown")
+        adata.uns["display"] = {
+            "balanced": True, "cellsPerGroup": n_each, "seed": int(args.seed),
+            "groups": list(counts.index),
+        }
+
+        # How often does a random equal-size draw put each group below the
+        # control? Measured on the FULL groups captured before balancing —
+        # drawing n cells from a group that has exactly n is not sampling, and
+        # would report a meaningless 100%.
+        PCf = pre_pca[:, : args.n_pcs_metric]
+        freq = {}
+        for space, X in (("pc", PCf), ("umap", pre_umap)):
+            for g in counts.index:
+                if g == control_name:
+                    continue
+                pool_g = np.where(pre_target == g)[0]
+                pool_c = np.where(pre_target == control_name)[0]
+                wins = 0
+                for sdraw in range(args.draw_reps):
+                    r3 = np.random.default_rng(sdraw)
+                    a = r3.choice(pool_g, min(n_each, len(pool_g)), replace=False)
+                    b = r3.choice(pool_c, min(n_each, len(pool_c)), replace=False)
+                    sp = lambda sel: np.median(
+                        np.linalg.norm(X[sel] - X[sel].mean(0), axis=1))
+                    wins += sp(a) < sp(b)
+                freq[f"{g}_{space}"] = round(100 * wins / args.draw_reps, 1)
+        adata.uns["display"]["tighterThanControlPct"] = freq
+        adata.uns["display"]["drawReps"] = int(args.draw_reps)
+        say(f"tighter than control across {args.draw_reps} random equal-size draws "
+            f"of the full groups:")
+        for k, v in sorted(freq.items()):
+            say(f"    {k:<16} {v:5.1f}%")
+
     # Filtering upstream resets categorical ordering, so set it here — last —
     # where it will survive to the export.
     if hasattr(adata.obs["target"], "cat"):
         cats = list(adata.obs["target"].cat.categories)
-        if control_name in cats:
-            adata.obs["target"] = adata.obs["target"].cat.reorder_categories(
-                [control_name] + [c for c in cats if c != control_name])
+        # Follow the order given on the command line; otherwise control first.
+        wanted = [k for k in keep if k in cats] if keep else []
+        order = wanted or ([control_name] + [c for c in cats if c != control_name])
+        order += [c for c in cats if c not in order]
+        adata.obs["target"] = adata.obs["target"].cat.reorder_categories(order)
 
     adata.write_h5ad(args.output)
     say(f"wrote {args.output}  ({adata.n_obs:,} cells, {adata.n_vars:,} HVGs)")

@@ -209,6 +209,7 @@ export function createScatter(canvas, opts = {}) {
 
   let colorBy = null;       // { kind:'categorical'|'continuous', … }
   let active = null;        // Set of visible level indices, or null = all
+  let focus = null;         // Uint8Array per cell, or null = everything in focus
   let phase = null;         // per-point drift phase
 
   // 3D intro state
@@ -267,7 +268,10 @@ export function createScatter(canvas, opts = {}) {
       const dimmed = [];
       for (let i = 0; i < n; i++) {
         const v = set.values[i];
-        if (active && !active.has(v)) dimmed.push(i);
+        // The focus mask outranks the colour mode: a cell outside the current
+        // comparison stays in the background no matter how we are colouring.
+        if (focus && !focus[i]) dimmed.push(i);
+        else if (active && !active.has(v)) dimmed.push(i);
         else if (buckets[v]) buckets[v].push(i);
       }
       return {
@@ -281,13 +285,15 @@ export function createScatter(canvas, opts = {}) {
     const [lo, hi] = sc.range;
     const span = (hi - lo) || 1;
     const buckets = Array.from({ length: CONT_BINS }, () => []);
+    const dimmedC = [];
     for (let i = 0; i < n; i++) {
+      if (focus && !focus[i]) { dimmedC.push(i); continue; }
       let t = (sc.values[i] - lo) / span;
       t = t < 0 ? 0 : t > 1 ? 1 : t;
       buckets[Math.min(CONT_BINS - 1, Math.floor(t * CONT_BINS))].push(i);
     }
     return {
-      dimmed: [],
+      dimmed: dimmedC,
       groups: buckets.map((idx, b) => ({
         idx,
         color: viridis((b + 0.5) / CONT_BINS),
@@ -455,9 +461,9 @@ export function createScatter(canvas, opts = {}) {
 
     // Dimmed (deselected) points sit behind, at low alpha.
     if (batches.dimmed.length) {
-      ctx.globalAlpha = 0.12;
-      ctx.fillStyle = '#8B98A9';
-      strokeGroup(batches.dimmed, Math.max(1, r * 0.82), amp, t);
+      ctx.globalAlpha = 0.16;
+      ctx.fillStyle = '#58626E';
+      strokeGroup(batches.dimmed, Math.max(1, r * 0.78), amp, t);
     }
 
     ctx.globalAlpha = drift ? 0.78 : 0.88;
@@ -654,6 +660,14 @@ export function createScatter(canvas, opts = {}) {
     },
 
     setColorBy(spec) { colorBy = spec; batches = null; schedule(); return api; },
+
+    /**
+     * Per-cell focus mask, independent of the colour mode. Cells outside it
+     * render as dim background so one comparison can be isolated without
+     * removing its context.
+     * @param {Uint8Array|null} mask
+     */
+    setFocusMask(mask) { focus = mask; batches = null; schedule(); return api; },
     setActiveLevels(set) { active = set; batches = null; schedule(); return api; },
     getHovered() { return hoverIdx; },
     redraw() { measure(); schedule(); return api; },

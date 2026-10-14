@@ -74,6 +74,7 @@ function mountExplorer(data) {
   const colorbar = $('#explorer-colorbar', root);
   const embedSeg = $('#explorer-embed', root);
   const colorSeg = $('#explorer-color', root);
+  const coSeg = $('#explorer-co', root);
   const tableWrap = $('#explorer-table');        // lives outside #explorer
   const capEl = $('#explorer-caption', root);
 
@@ -94,6 +95,7 @@ function mountExplorer(data) {
 
   let mode = modes[0];
   let active = null;          // Set of visible level indices, or null = all
+  let coKey = null;           // which chromatin organizer is in focus
 
   // Per-group statistics computed upstream (e.g. CV vs size-matched controls).
   // Only shown for the label set they were computed for.
@@ -154,11 +156,25 @@ function mountExplorer(data) {
     colorbar.dataset.on = 'false';
     const { set } = mode;
 
+    // With a CO selected, counts describe the focused comparison rather than
+    // the whole file — otherwise the legend contradicts the plot.
+    const focusMask = focusMaskFor(coKey);
+    const shownCounts = focusMask
+      ? (() => {
+          const c = new Array(set.levels.length).fill(0);
+          for (let i = 0; i < data.n; i++) if (focusMask[i]) c[set.values[i]]++;
+          return c;
+        })()
+      : set.counts;
+
     set.levels.forEach((name, i) => {
+      const inFocus = !coKey || !focusSet || set.key !== focusSet.key
+        || name === CONTROL_LEVEL || name === coKey;
       const li = el('li');
       const btn = el('button', 'legend__item');
       btn.type = 'button';
-      btn.setAttribute('aria-pressed', String(!active || active.has(i)));
+      btn.setAttribute('aria-pressed', String(inFocus && (!active || active.has(i))));
+      if (!inFocus) btn.title = 'not in the current comparison';
 
       const sw = el('span', 'legend__swatch');
       sw.style.background = categoricalColor(i);
@@ -171,7 +187,7 @@ function mountExplorer(data) {
         if (st.cv_ratio <= 0.95) cv.style.color = 'var(--accent)';
         btn.append(cv);
       } else {
-        btn.append(el('span', 'legend__n', fmt(set.counts[i])));
+        btn.append(el('span', 'legend__n', fmt(shownCounts[i])));
       }
 
       btn.addEventListener('click', () => { toggleLevel(i); });
@@ -226,6 +242,8 @@ function mountExplorer(data) {
       const tr = el('tr');
       const shown = !active || active.has(i);
       const st = statFor(set.key, name);
+      const focused = !coKey || !focusSet || set.key !== focusSet.key
+        || name === CONTROL_LEVEL || name === coKey;
       tr.append(el('td', null, name));
       tr.append(el('td', 'num', fmt(set.counts[i])));
       if (withStats) {
@@ -235,7 +253,7 @@ function mountExplorer(data) {
       } else {
         tr.append(el('td', 'num', `${((set.counts[i] / data.n) * 100).toFixed(1)}%`));
       }
-      tr.append(el('td', 'num', shown ? 'yes' : 'no'));
+      tr.append(el('td', 'num', focused && shown ? 'yes' : 'no'));
       tbody.append(tr);
     });
 
@@ -248,6 +266,43 @@ function mountExplorer(data) {
     wrap.append(table);
     tableWrap.append(wrap);
   }
+
+  /* ---- CO focus ----------------------------------------------------------
+     One knockdown at a time against the non-targeting control. Everything
+     else drops to the background rather than disappearing, so the comparison
+     is isolated without hiding how much data is behind it. */
+
+  const CONTROL_LEVEL = 'NT';
+  const focusSet = data.labelSets.target || data.labelSets.perturbation || null;
+  const coOptions = focusSet
+    ? focusSet.levels.filter((l) => l !== CONTROL_LEVEL)
+    : [];
+
+  /** Cells belonging to the control or to `co`; null means everything. */
+  function focusMaskFor(co) {
+    if (!co || !focusSet) return null;
+    const ctrlIdx = focusSet.levels.indexOf(CONTROL_LEVEL);
+    const coIdx = focusSet.levels.indexOf(co);
+    const m = new Uint8Array(data.n);
+    for (let i = 0; i < data.n; i++) {
+      const v = focusSet.values[i];
+      m[i] = (v === ctrlIdx || v === coIdx) ? 1 : 0;
+    }
+    return m;
+  }
+
+  function selectCO(it) {
+    coKey = it.key === '__all' ? null : it.key;
+    scatter.setFocusMask(focusMaskFor(coKey));
+    buildSeg(coSeg, coItems, it.key, selectCO);
+    renderLegend();
+    renderTable();
+  }
+
+  const coItems = [
+    ...coOptions.map((k) => ({ key: k, label: `NT vs ${k}` })),
+    { key: '__all', label: 'All' },
+  ];
 
   /* ---- segmented controls ---- */
 
@@ -291,6 +346,11 @@ function mountExplorer(data) {
 
   buildSeg(embedSeg, embedItems, data.embeddingNames[0], selectEmbedding);
   selectMode(mode);
+  if (coSeg && coItems.length > 1) {
+    selectCO(coItems[0]);
+  } else if (coSeg) {
+    coSeg.closest('.ctl')?.remove();
+  }
 
   /* ---- caption ---- */
 

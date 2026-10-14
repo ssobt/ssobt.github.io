@@ -92,6 +92,7 @@ export function mountCohort(data, root) {
   const geneSeg = $('#cohort-gene', root);
   const viewSeg = $('#cohort-view', root);
   const readout = $('#cohort-readout', root);
+  const legendEl = $('#cohort-legend', root);
   const capEl = $('#cohort-caption', root);
   const tableWrap = $('#cohort-table');
 
@@ -434,6 +435,29 @@ export function mountCohort(data, root) {
 
   /* -- readout ------------------------------------------------------------- */
 
+  /** Which color means which quartile. The plot is unreadable without it. */
+  function renderLegend() {
+    if (!legendEl) return;
+    const G = gene(geneKey);
+    const rows = [
+      [COL.q75, 'Top quartile', 'high expression', G.stats[Q75].n],
+      [COL.q25, 'Bottom quartile', 'low expression', G.stats[Q25].n],
+      [COL.mid, 'Middle 50%', 'not compared', G.idx[MID].length],
+    ];
+    legendEl.replaceChildren();
+    for (const [color, name, note, n] of rows) {
+      const li = el('li');
+      const row = el('div', 'qlegend__item');
+      const sw = el('span', 'legend__swatch');
+      sw.style.background = color;
+      const txt = el('span', 'qlegend__text');
+      txt.append(el('b', null, name), el('i', null, note));
+      row.append(sw, txt, el('span', 'legend__n', fmt(n)));
+      li.append(row);
+      legendEl.append(li);
+    }
+  }
+
   function renderReadout() {
     const G = gene(geneKey);
     const s25 = G.stats[Q25], s75 = G.stats[Q75];
@@ -506,6 +530,7 @@ export function mountCohort(data, root) {
       readout.append(cite);
     }
 
+    renderLegend();
     renderTable(G);
   }
 

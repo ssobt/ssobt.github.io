@@ -500,6 +500,22 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
 .legend__name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .legend__n { flex: none; color: var(--fg-faint); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
 
+/* Quartile legend for the cohort figure */
+.qlegend { gap: 0.1rem; margin-bottom: 0.25rem; }
+.qlegend__item {
+  display: flex; align-items: baseline; gap: 0.55rem;
+  padding: 0.3rem 0.45rem;
+  font: 500 0.76rem/1.35 var(--mono);
+  color: var(--fg-muted);
+}
+.qlegend__item .legend__swatch { position: relative; top: 1px; }
+.qlegend__text { flex: 1 1 auto; min-width: 0; }
+.qlegend__text b { color: var(--fg); font-weight: 600; display: block; }
+.qlegend__text i {
+  font-style: normal; color: var(--fg-faint); font-size: 0.68rem;
+  display: block; margin-top: 0.05rem;
+}
+
 /* Continuous colorbar */
 .colorbar { display: none; flex-direction: column; gap: 0.4rem; }
 .colorbar[data-on="true"] { display: flex; }
