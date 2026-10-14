@@ -382,6 +382,9 @@ export function mountCohort(data, root) {
     const from = blend, to = next === 'pc' ? 0 : 1;
     tip.dataset.on = 'false';
     hoverIdx = -1;
+    // The strip view labels its two columns on the x axis, so the inset key
+    // is redundant there; only PC space needs it.
+    syncKey();
 
     if (reducedMotion()) { blend = to; draw(); return; }
     const start = performance.now(), dur = 780;
@@ -435,6 +438,11 @@ export function mountCohort(data, root) {
 
   /* -- readout ------------------------------------------------------------- */
 
+  /** The inset key belongs to PC space only. */
+  function syncKey() {
+    if (legendEl) legendEl.dataset.on = view === 'pc' ? 'true' : 'false';
+  }
+
   /** Color key, drawn inside the plot so the mapping sits next to the marks. */
   function renderLegend() {
     if (!legendEl) return;
@@ -444,6 +452,7 @@ export function mountCohort(data, root) {
       [COL.q25, 'Bottom quartile', 'low expression', G.stats[Q25].n, false],
       [COL.mid, 'Middle 50%', 'not compared', G.idx[MID].length, true],
     ];
+    syncKey();
     legendEl.replaceChildren();
     for (const [color, name, note, n, muted] of rows) {
       const li = el('li', muted ? 'plotkey__row is-muted' : 'plotkey__row');

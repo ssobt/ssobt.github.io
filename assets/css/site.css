@@ -520,7 +520,11 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
   -webkit-backdrop-filter: blur(3px);
   pointer-events: none;        /* never block hover on the points beneath */
   font: 500 0.72rem/1.3 var(--mono);
+  opacity: 0;                  /* PC space only; see syncKey() in cohort.js */
+  visibility: hidden;
+  transition: opacity var(--t-fast), visibility var(--t-fast);
 }
+.plotkey[data-on="true"] { opacity: 1; visibility: visible; }
 .plotkey__row { display: contents; }
 .plotkey__dot {
   width: 0.62rem; height: 0.62rem; border-radius: 50%;
