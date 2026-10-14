@@ -1,2 +1,5 @@
 .DS_Store
 _probe.html
+
+# Local-only Claude Code config: names paths on this machine, and this repo is public.
+.claude/settings.local.json
