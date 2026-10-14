@@ -435,25 +435,23 @@ export function mountCohort(data, root) {
 
   /* -- readout ------------------------------------------------------------- */
 
-  /** Which color means which quartile. The plot is unreadable without it. */
+  /** Color key, drawn inside the plot so the mapping sits next to the marks. */
   function renderLegend() {
     if (!legendEl) return;
     const G = gene(geneKey);
     const rows = [
-      [COL.q75, 'Top quartile', 'high expression', G.stats[Q75].n],
-      [COL.q25, 'Bottom quartile', 'low expression', G.stats[Q25].n],
-      [COL.mid, 'Middle 50%', 'not compared', G.idx[MID].length],
+      [COL.q75, 'Top quartile', 'high expression', G.stats[Q75].n, false],
+      [COL.q25, 'Bottom quartile', 'low expression', G.stats[Q25].n, false],
+      [COL.mid, 'Middle 50%', 'not compared', G.idx[MID].length, true],
     ];
     legendEl.replaceChildren();
-    for (const [color, name, note, n] of rows) {
-      const li = el('li');
-      const row = el('div', 'qlegend__item');
-      const sw = el('span', 'legend__swatch');
+    for (const [color, name, note, n, muted] of rows) {
+      const li = el('li', muted ? 'plotkey__row is-muted' : 'plotkey__row');
+      const sw = el('span', 'plotkey__dot');
       sw.style.background = color;
-      const txt = el('span', 'qlegend__text');
-      txt.append(el('b', null, name), el('i', null, note));
-      row.append(sw, txt, el('span', 'legend__n', fmt(n)));
-      li.append(row);
+      li.append(sw, el('b', 'plotkey__name', name),
+                el('span', 'plotkey__note', note),
+                el('span', 'plotkey__n', fmt(n)));
       legendEl.append(li);
     }
   }
