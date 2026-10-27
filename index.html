@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/site.css?v=202610140131">
+<link rel="stylesheet" href="assets/css/site.css?v=202610271433">
 <script>document.documentElement.className = 'js';</script>
 </head>
 <body>
@@ -49,8 +49,12 @@
         </p>
 
         <p class="hero__pitch">
-          I turn high-dimensional genomics into <strong>therapeutic targets</strong> —
-          from the bench, through the pipeline, to the model.
+          I find <strong>drug targets</strong> hidden in large genomics datasets,
+          help prove them in the lab, and package the method so others can reuse it.
+        </p>
+        <p class="hero__hook">
+          Most recently: two genes that make breast tumors more varied from cell to
+          cell, and harder to treat. <a href="#explore">See how we found them ↓</a>
         </p>
 
         <div class="stats" role="list">
@@ -96,9 +100,9 @@
       <p class="section__num">01</p>
       <h2 class="section__title">Selected work</h2>
       <p class="section__lede">
-        Six projects spanning patient cohorts, pooled genetic screens, spatial tissue,
-        and the software written to analyze them. Every claim below links to the
-        preprint, the paper, or the code that produced it.
+        I've worked with patient cohorts, pooled genetic screens, microscopy images,
+        and tissue sequenced in place. Each project below opens with the question it
+        set out to answer.
       </p>
     </div>
 
@@ -113,10 +117,11 @@
           <a href="projects/ith.html">Chromatin organizers as tuners of intratumoral heterogeneity</a>
         </h3>
         <p class="card__result">
-          Screened for regulators of transcriptional noise, then validated
-          <strong>RNF8</strong> and <strong>MIS18A</strong> as drivers of intratumoral
-          heterogeneity across scATAC-seq, scRNA-seq, and TCGA breast cancer —
-          where high heterogeneity tracks with worse survival.
+          Why do some breast tumors contain cells that all behave differently, and
+          why are those tumors harder to treat? We found two genes,
+          <strong>RNF8</strong> and <strong>MIS18A</strong>, that turn that
+          cell-to-cell variety up or down. Lowering either one made cancer cells more
+          sensitive to chemotherapy.
         </p>
         <ul class="chips">
           <li><span class="chip">scATAC-seq</span></li>
@@ -141,10 +146,10 @@
           <a href="projects/decoy-seq.html">Decoy-seq: scalable screening for regulatory small non-coding RNAs</a>
         </h3>
         <p class="card__result">
-          A pooled decoy-based screen that makes miRNAs and tRNA fragments
-          <strong>tractable at scale</strong>. Analysis of the Perturb-seq readout
-          assigned functional roles to tRNA fragments previously treated as
-          passive biomarkers in breast cancer.
+          Small RNAs such as microRNAs each control many genes, but there was no good
+          way to test hundreds of them in one experiment. Decoy-seq does that
+          <strong>at scale</strong>, and showed that tRNA fragments, long treated as
+          bystanders in breast cancer, have real functional roles.
         </p>
         <ul class="chips">
           <li><span class="chip">Perturb-seq</span></li>
@@ -168,10 +173,10 @@
           <a href="https://github.com/ssobt/VariPath" rel="noopener">VariPath</a>
         </h3>
         <p class="card__result">
-          Pathway-shift detection for Perturb-seq. Uses <strong>varimax rotation</strong>
-          of principal component space to recover interpretable, sparsely-loaded
-          components — a higher signal-to-noise ratio for perturbation–pathway
-          association than comparable methods.
+          When you switch off a gene in a CRISPR screen, which biological pathways
+          change? VariPath answers that from single-cell data. It rotates the analysis
+          so each signal maps onto a <strong>small, readable set of genes</strong>,
+          giving a cleaner signal than comparable methods.
         </p>
         <ul class="chips">
           <li><span class="chip">R</span></li>
@@ -194,10 +199,10 @@
           <a href="https://github.com/ssobt/txnheterogeneity" rel="noopener">txnheterogeneity</a>
         </h3>
         <p class="card__result">
-          Quantifies transcriptional and open-chromatin heterogeneity between
-          conditions — <strong>one interface across bulk RNA-seq, scRNA-seq, and
-          scATAC-seq</strong>, via transcriptome-wide coefficient of variation and
-          PC-space dispersion. Wraps ArchR for ATAC peak calling.
+          The method behind project 01, packaged so anyone can use it. Give it two
+          conditions and it measures how much more varied one is than the other,
+          <strong>with one interface for bulk RNA-seq, single-cell RNA-seq, and
+          chromatin data</strong>.
         </p>
         <ul class="chips">
           <li><span class="chip">R</span></li>
@@ -217,9 +222,10 @@
         </div>
         <h3 class="card__title">Spatial transcriptomics of adipose tissue</h3>
         <p class="card__result">
-          Led the spatial analysis of 10x Visium slides from <strong>mouse and vervet
-          monkey</strong> adipose tissue with the Shamsi lab, mapping progenitor states
-          around white adipose that precede shifts in brown adipose content.
+          Brown fat burns energy; white fat stores it. With the Shamsi lab, I led the
+          spatial analysis of <strong>mouse and vervet monkey</strong> fat tissue,
+          mapping the progenitor cell states around white fat that appear before
+          brown fat content shifts.
         </p>
         <ul class="chips">
           <li><span class="chip">10x Visium</span></li>
@@ -240,9 +246,9 @@
           <a href="https://doi.org/10.1038/s41598-024-53999-w" rel="noopener">An inflamed subpopulation drives chemoresistance in TNBC</a>
         </h3>
         <p class="card__result">
-          Single-cell dissection of triple-negative breast cancer identified an
-          inflamed subpopulation that survives chemotherapy — and the
-          <strong>drug–target combinations</strong> that re-sensitize it.
+          Why does chemotherapy fail in triple-negative breast cancer? A single-cell
+          analysis found an inflamed group of tumor cells that survives treatment,
+          and the <strong>drug combinations</strong> that make it vulnerable again.
         </p>
         <ul class="chips">
           <li><span class="chip">scRNA-seq</span></li>
@@ -263,11 +269,21 @@
       <p class="section__num">02</p>
       <h2 class="section__title">From a patient cohort to a drug target</h2>
       <p class="section__lede">
-        This is the actual path of the chromatin-organizer study — public patient
-        data in, a therapeutic target out, with wet-lab collaboration in the middle.
-        Both figures are live and both are computed from the real data: 1,100 TCGA
-        tumors and 7,474 Perturb-seq cells, rendered straight onto canvas with no
-        plotting library. Try the negative controls.
+        One project from start to finish. The short version:
+      </p>
+      <ol class="tldr">
+        <li><span>Some tumors are made of cells that all act alike. Others are a
+          patchwork, and the patchwork ones are harder to treat.</span></li>
+        <li><span>In over a thousand patient tumors, we looked for genes that come with
+          more patchwork. 41 stood out.</span></li>
+        <li><span>We turned 16 of them down in cancer cells. For two,
+          <strong>RNF8</strong> and <strong>MIS18A</strong>, the cells became more
+          alike.</span></li>
+        <li><span>Lowering either gene made cancer cells easier to kill with chemotherapy.
+          In patients, high levels predict shorter survival.</span></li>
+      </ol>
+      <p class="section__lede section__lede--after">
+        Both figures below are interactive and computed from the real data.
       </p>
     </div>
 
@@ -275,26 +291,37 @@
 
       <!-- ---------- step 1 ---------- -->
       <div class="step reveal">
-        <p class="step__label">Step 01 · Public patient data</p>
-        <h3 class="step__title">Ask 1,200 tumours which genes track with heterogeneity</h3>
+        <p class="step__label">Step 01 · Patient data</p>
+        <h3 class="step__title">Which genes come with more varied tumors?</h3>
         <div class="step__text">
           <p>
-            Start with TCGA breast cancer RNA-seq and ask an unusual question of it.
-            Not <em>which genes are higher in aggressive tumours</em> — that question has
-            been asked exhaustively — but <strong>which genes, when highly expressed,
-            come with a more variable transcriptome across patients</strong>.
+            Most cancer studies ask which genes are <em>higher</em> in aggressive
+            tumors. We asked something different: <strong>which genes, when they are
+            high, come with more variability across the whole transcriptome?</strong>
           </p>
           <p>
-            For every chromatin organizer, split the cohort into top and bottom
-            expression quartiles and compare genome-wide transcript coefficient of
-            variation between the groups, against an empirical null built from 50
-            random patient groupings. 41 candidates cleared a <code>z &gt; 2.5</code>
-            cutoff under both quartile and quintile splits.
+            We focused on chromatin organizers, the proteins that package DNA and
+            control which genes can be switched on. For each one, we split TCGA breast
+            cancer patients into those with the highest and lowest levels and compared
+            how varied each group was. 41 genes stood out.
           </p>
-          <p>
-            The figure below is how we visualized it: project patients into PC space
-            and measure how far each sits from its own group's centroid.
+          <p class="howto">
+            <b>Reading Figure 1.</b> Each dot is one patient's tumor. Orange tumors
+            have high levels of the selected gene, blue tumors low. If the gene drives
+            variability, the orange cloud spreads wider than the blue. Try RNF8 and
+            MIS18A, then compare with the two control genes.
           </p>
+          <details class="datatable more">
+            <summary>Methods detail</summary>
+            <p>
+              Groups were the top and bottom expression quartiles. Variability was
+              genome-wide transcript coefficient of variation, compared against an
+              empirical null built from 50 random patient groupings; the 41 candidates
+              cleared <code>z &gt; 2.5</code> under both quartile and quintile splits.
+              The figure projects patients into PC space and measures how far each sits
+              from its own group's centroid.
+            </p>
+          </details>
         </div>
       </div>
 
@@ -314,7 +341,7 @@
           <div class="explorer__stage">
             <div class="explorer__plot">
               <canvas id="cohort-canvas" role="img"
-                aria-label="Scatter of breast tumours in principal component space, colored by whether the patient falls in the bottom or top expression quartile of the selected gene. An equivalent data table is below the figure."></canvas>
+                aria-label="Scatter of breast tumors in principal component space, colored by whether the patient falls in the bottom or top expression quartile of the selected gene. An equivalent data table is below the figure."></canvas>
               <ul class="plotkey" id="cohort-legend" aria-label="Color key"></ul>
               <div class="tip" id="cohort-tip" role="status" aria-live="polite" data-on="false"></div>
               <div class="explorer__status" id="cohort-status" data-on="true">
@@ -338,40 +365,36 @@
 
         <div class="callout callout--tight">
           <p>
-            <strong>Why the null matters more than the p-value.</strong> Split 1,100
-            patients by any gene and you get two groups of about 275. At that size
-            roughly <b>84% of randomly chosen genes</b> reach <code>P &lt; 0.05</code>
-            on this metric — significance is nearly free, so it cannot be the evidence.
-            <b>ADORA2B</b> is the instructive case: <code>P = 2.7 × 10⁻⁵</code> looks
-            decisive, but against a null built from 200 random genes it sits at only
-            the 74th percentile. RNF8 and MIS18A reach the 94th and 96th. That
-            calibration is what separates a candidate from an artifact, and it is how
-            the 41 candidates were nominated in the first place.
+            <strong>Why we didn't trust P-values alone.</strong> With groups this
+            large, almost any gene looks significant: <b>84% of randomly chosen
+            genes</b> reach <code>P &lt; 0.05</code> on this metric. So each candidate
+            was ranked against 200 random genes instead. <b>ADORA2B</b> shows why this
+            matters. Its <code>P = 2.7 × 10⁻⁵</code> looks impressive, but it beats only
+            74% of random genes. RNF8 and MIS18A beat 94% and 96%.
           </p>
           <p>
-            The boring explanations were ruled out separately: copy-number change
-            (CNA and expression variability are uncorrelated), tumor purity
-            (ESTIMATE scores), and a shift in mean expression, which does not move.
+            We also ruled out the obvious alternative explanations: changes in DNA copy
+            number, how pure the tumor sample was, and shifts in average expression.
           </p>
         </div>
+      </div>
 
       <!-- ---------- step 2 ---------- -->
       <div class="step reveal">
         <p class="step__label">Step 02 · Wet-lab collaboration</p>
-        <h3 class="step__title">Put the 41 candidates through a functional screen</h3>
+        <h3 class="step__title">Test the candidates in living cells</h3>
         <div class="step__text">
           <p>
-            A correlation in patient data is a hypothesis, not a target. Sixteen of the
-            41 candidates went into CRISPRi and CRISPRa Perturb-seq in MDA-MB-231 cells,
-            run with the bench side of the lab — the step where a computational
-            shortlist either survives contact with biology or does not.
+            A pattern in patient data is a lead, not proof. Working with the bench side
+            of the lab, we took 16 of the 41 candidates into a CRISPR screen in breast
+            cancer cells (MDA-MB-231). Each gene was turned down (CRISPRi) or up
+            (CRISPRa), and every cell's transcriptome was read out (Perturb-seq).
           </p>
           <p>
-            Intersecting the knockdown and overexpression arms, two came through:
-            <strong>RNF8</strong>, a DNA-damage-response ubiquitin ligase, and
-            <strong>MIS18A</strong>, part of the centromeric histone deposition
-            complex. Neither had been connected to transcriptional heterogeneity
-            before.
+            Two genes behaved consistently in both directions: <strong>RNF8</strong>,
+            which helps repair DNA damage, and <strong>MIS18A</strong>, part of the
+            machinery that marks centromeres, the anchor points chromosomes use during
+            cell division. Neither had been linked to tumor variability before.
           </p>
         </div>
       </div>
@@ -379,40 +402,48 @@
       <!-- ---------- step 3 ---------- -->
       <div class="step reveal">
         <p class="step__label">Step 03 · Single-cell validation</p>
-        <h3 class="step__title">Show the effect at the level it actually operates</h3>
+        <h3 class="step__title">Watch the effect cell by cell</h3>
         <div class="step__text">
           <p>
-            Patient-level variability is between tumors. The claim was about variability
-            <em>within</em> one. All 16 candidates went through CRISPRi Perturb-seq;
-            the figure below shows the knockdown arm for the two that came through,
-            processed from the raw count matrix.
+            Patient data compares tumors with each other. The real claim is about cells
+            <em>within</em> a tumor, so we looked at single cells.
           </p>
           <p>
-            Knocking down either gene <strong>reduces</strong> genome-wide transcript
-            variability — MIS18A to <b>0.92×</b> and RNF8 to <b>0.93×</b> the CV of
-            non-targeting controls, with 70% and 66% of tested genes moving down.
-            Each perturbation is compared against a <em>size-matched</em> control
-            sample, because dispersion estimates scale with cell number; non-targeting
-            cells split against themselves land at <b>1.01×</b>, and that null is what
-            makes the rest of the column readable.
+            <strong>Turning down either gene made the cells more alike.</strong>
+            Variability dropped to <b>0.92×</b> (MIS18A) and <b>0.93×</b> (RNF8) of
+            control cells, with about two-thirds of genes becoming less variable.
+            Average expression didn't change, and neither did how fast the cells were
+            dividing. What changed was variability itself.
           </p>
-          <p>
-            The figure shows <b>471 cells per group</b> — the size of the smallest —
-            so what you see is a difference in spread rather than in how many cells
-            were collected. That is not a hand-picked view: across 200 random
-            equal-size draws, RNF8 and MIS18A each sit tighter than non-targeting in
-            <b>80–88%</b> of them, and MIS18A in 99.5% of draws in UMAP space.
-            Use the <b>CO</b> control to isolate one knockdown against the control at
-            a time; the rest drops to the background rather than vanishing.
+          <p class="howto">
+            <b>Reading Figure 2.</b> Each dot is one cell, colored by which gene was
+            turned down. Use the <b>CO</b> (chromatin organizer) buttons to compare one
+            knockdown with the non-targeting controls: the knockdown cells form a
+            tighter cloud. Each group shows the same number of cells, so you are seeing
+            a difference in spread, not in sample size.
           </p>
-          <p>
-            Mean expression does not move with it (per-gene median ratio 1.00,
-            <code>r = 0.999</code>) and cell-cycle composition is unchanged — so this is
-            a change in <em>variability</em>, not in magnitude or proliferation. That
-            dissociation is the whole argument. In the full screen <b>AURKB</b> runs the
-            other way at 1.62×, which the paper flags too: perturbing an essential
-            mitotic regulator has effects far beyond the one being measured.
-          </p>
+          <details class="datatable more">
+            <summary>Methods detail</summary>
+            <p>
+              Variability is genome-wide transcript CV on linear relative counts. Each
+              perturbation is compared against a <em>size-matched</em> control sample,
+              because dispersion estimates scale with cell number; non-targeting cells
+              split against themselves land at <b>1.01×</b>. 70% (MIS18A) and 66%
+              (RNF8) of tested genes moved down.
+            </p>
+            <p>
+              The figure shows <b>471 cells per group</b>, the size of the smallest.
+              This is not a hand-picked view: across 200 random equal-size draws, RNF8
+              and MIS18A each sit tighter than non-targeting in <b>80–88%</b> of them,
+              and MIS18A in 99.5% of draws in UMAP space.
+            </p>
+            <p>
+              Per-gene mean expression ratio is 1.00 (<code>r = 0.999</code>), and
+              cell-cycle composition is unchanged. In the full screen <b>AURKB</b> runs
+              the other way at 1.62×, which the paper also flags: perturbing an essential
+              mitotic regulator has effects far beyond the one being measured.
+            </p>
+          </details>
         </div>
       </div>
 
@@ -465,21 +496,20 @@
 
       <!-- ---------- step 4 ---------- -->
       <div class="step reveal">
-        <p class="step__label">Step 04 · Actionable</p>
-        <h3 class="step__title">Make it matter for treatment</h3>
+        <p class="step__label">Step 04 · Why it matters</p>
+        <h3 class="step__title">Show it changes how tumors respond</h3>
         <div class="step__text">
           <p>
-            A regulator of noise is only interesting if turning it changes an outcome.
-            Knocking down either gene <strong>sensitized cells to chemotherapy and
-            reduced lung metastatic burden</strong> <em>in vivo</em>; overexpressing it
-            conferred resistance and promoted progression. The effect reproduced in a
-            second, independently engineered cell line.
+            <strong>Lowering either gene made cancer cells more sensitive to
+            chemotherapy and, in mice, reduced their spread to the lung.</strong>
+            Raising it did the opposite. The result held in a second, independently
+            engineered cell line.
           </p>
           <p>
-            And it carries to patients: in METABRIC, higher expression of either gene
-            predicts shorter survival — MIS18A at <code>HR = 1.75</code>. Both a
-            prognostic marker and a therapeutic handle, from a question first asked of
-            a public cohort.
+            It holds in patients too. In a separate breast cancer cohort (METABRIC),
+            high levels of either gene predict shorter survival; for MIS18A the hazard
+            is 75% higher (<code>HR = 1.75</code>). That makes these genes both a
+            marker of worse outcome and a potential drug target.
           </p>
           <p class="step__links">
             <a href="projects/ith.html" data-internal>Full write-up</a>
@@ -498,9 +528,9 @@
       <p class="section__num">03</p>
       <h2 class="section__title">Stack</h2>
       <p class="section__lede">
-        Organized the way the work actually flows. I have run every one of these
-        layers myself, which is the main reason I can talk to the people generating
-        the data as easily as to the people consuming the model.
+        What I use, in the order the work flows: from making the data to deciding what
+        it means. I've done every layer myself, so I can talk to the people generating
+        the data as easily as to the people using the results.
       </p>
     </div>
 
@@ -734,7 +764,7 @@
         <p>
           What I keep coming back to is <strong>heterogeneity</strong>: the fact that
           genetically identical cancer cells behave differently, that this variability
-          is itself regulated, and that regulating it changes how tumours respond to
+          is itself regulated, and that regulating it changes how tumors respond to
           treatment. Two of my first-author projects are about measuring it and finding
           what tunes it.
         </p>
@@ -786,7 +816,7 @@
   </div>
 </footer>
 
-<script type="module" src="assets/js/explorer.js?v=202610140131"></script>
-<script type="module" src="assets/js/site.js?v=202610140131"></script>
+<script type="module" src="assets/js/explorer.js?v=202610271433"></script>
+<script type="module" src="assets/js/site.js?v=202610271433"></script>
 </body>
 </html>

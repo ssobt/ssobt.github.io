@@ -282,6 +282,8 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
   margin-bottom: 2rem;
 }
 .hero__pitch strong { color: var(--accent); font-weight: 600; }
+.hero__hook { color: var(--fg-muted); max-width: 46ch; margin: -0.4rem 0 1.6rem; }
+.hero__hook a { white-space: nowrap; }
 
 /* Stat strip — reads like a results line */
 .stats {
@@ -673,6 +675,41 @@ table.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
 }
 
 .figure-block { margin-block: 0.5rem 1.5rem; }
+
+/* Plain-language scaffolding: the short version up top, a "how to read this"
+   note beside each figure, and methods folded away for those who want them. */
+.tldr {
+  grid-column: 2;
+  max-width: var(--measure);
+  margin: 1.1rem 0 0; padding: 0;
+  list-style: none; counter-reset: tldr;
+  display: grid; gap: 0.7rem;
+}
+.tldr li {
+  counter-increment: tldr;
+  display: grid; grid-template-columns: 2.1rem minmax(0, 1fr);
+  color: var(--fg); font-size: 1.02rem; line-height: 1.55;
+}
+.tldr li::before {
+  content: counter(tldr, decimal-leading-zero);
+  font: 600 0.74rem/2.1 var(--mono); color: var(--accent);
+}
+.tldr strong { color: var(--accent); font-weight: 600; }
+.section__lede--after { margin-top: 1.1rem; font-size: 0.92rem; }
+
+.howto {
+  border-left: 2px solid var(--accent);
+  padding-left: 0.9rem;
+  color: var(--fg) !important;
+}
+.howto b { color: var(--accent); font-weight: 600; }
+
+.more { margin-top: 0.4rem; }
+.more p { font-size: 0.88rem; margin-top: 0.4rem; }
+
+@media (max-width: 680px) {
+  .tldr { grid-column: 1; }
+}
 
 .callout--tight { margin: 1.25rem 0 0; }
 .callout--tight p { font-size: 0.88rem; }
