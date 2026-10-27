@@ -55,11 +55,11 @@ export function viridisGradient() {
   return `linear-gradient(90deg, ${stops.join(', ')})`;
 }
 
-/* Okabe–Ito, reordered so the first few are maximally distinct on dark.
-   Colorblind-safe; cycles if a label set has more levels than colors. */
+/* Okabe–Ito, reordered so the first four clear 3:1 contrast on the light
+   panel. Colorblind-safe; cycles if a label set has more levels than colors. */
 export const CATEGORICAL = [
-  '#56B4E9', '#E69F00', '#009E73', '#CC79A7',
-  '#F0E442', '#0072B2', '#D55E00', '#8FA7B8',
+  '#0072B2', '#D55E00', '#009E73', '#CC79A7',
+  '#7A8699', '#E69F00', '#56B4E9', '#F0E442',
 ];
 
 export const categoricalColor = (i) => CATEGORICAL[i % CATEGORICAL.length];
@@ -411,7 +411,7 @@ export function createScatter(canvas, opts = {}) {
         const b = s * groups + g;
         const from = dbStarts[b], to = dbStarts[b + 1];
         if (to <= from) continue;
-        ctx.fillStyle = isCat ? categoricalColor(g) : '#35B779';
+        ctx.fillStyle = isCat ? categoricalColor(g) : '#146B45';
         ctx.beginPath();
         for (let k = from; k < to; k++) {
           const i = dbItems[k];
@@ -462,7 +462,7 @@ export function createScatter(canvas, opts = {}) {
     // Dimmed (deselected) points sit behind, at low alpha.
     if (batches.dimmed.length) {
       ctx.globalAlpha = 0.16;
-      ctx.fillStyle = '#58626E';
+      ctx.fillStyle = '#44546E';
       strokeGroup(batches.dimmed, Math.max(1, r * 0.78), amp, t);
     }
 
@@ -480,7 +480,7 @@ export function createScatter(canvas, opts = {}) {
       ctx.globalAlpha = 1;
       ctx.beginPath();
       ctx.arc(x, y, r + 3.5, 0, TAU);
-      ctx.strokeStyle = '#FDE725';
+      ctx.strokeStyle = '#0C2043';
       ctx.lineWidth = 1.5;
       ctx.stroke();
     }

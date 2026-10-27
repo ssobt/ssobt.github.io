@@ -6,28 +6,29 @@
 /* --- 1. Tokens ----------------------------------------------------------- */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   /* Surfaces */
-  --bg:        #0A0C10;
-  --panel:     #11151C;
-  --raised:    #161B24;
-  --border:    #1E2530;
-  --border-lit:#2C3646;
+  --bg:        #F7F9FB;
+  --panel:     #FFFFFF;
+  --raised:    #EEF2F6;
+  --border:    #DDE3EA;
+  --border-lit:#C5CED9;
 
   /* Text — all pairs checked at AA or better against --bg / --panel */
-  --fg:        #E6EDF3;
-  --fg-muted:  #8B98A9;
-  --fg-faint:  #5B6675;
+  --fg:        #0C2043;
+  --fg-muted:  #44546E;
+  --fg-faint:  #5E6C82;
 
-  /* Accent — viridis-derived */
-  --accent:    #35B779;
-  --accent-dim:#1F6F49;
-  --hot:       #FDE725;
+  /* Accent: a deep green, shared with the pkgdown docs */
+  --accent:    #146B45;
+  --accent-dim:#A9D3BD;
+  --hot:       #0F5537;
 
-  /* Categorical: Okabe–Ito, tuned for dark backgrounds */
-  --c1: #56B4E9;  --c2: #E69F00;  --c3: #009E73;  --c4: #CC79A7;
-  --c5: #F0E442;  --c6: #0072B2;  --c7: #D55E00;
+  /* Categorical: Okabe–Ito, ordered so the first four clear 3:1 on white.
+     Keep in step with CATEGORICAL in scatter.js and COL in cohort.js. */
+  --c1: #0072B2;  --c2: #D55E00;  --c3: #009E73;  --c4: #CC79A7;
+  --c5: #7A8699;  --c6: #E69F00;  --c7: #56B4E9;
 
   /* Type */
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto,
@@ -91,11 +92,11 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
   border-radius: var(--r-sm);
 }
 
-::selection { background: var(--accent-dim); color: #fff; }
+::selection { background: var(--accent-dim); color: var(--fg); }
 
 .skip-link {
   position: absolute; left: -9999px; top: 0; z-index: 100;
-  background: var(--accent); color: #05140C; padding: 0.7em 1.2em;
+  background: var(--accent); color: #FFFFFF; padding: 0.7em 1.2em;
   font: 600 0.85rem var(--mono); border-radius: 0 0 var(--r-md) 0;
 }
 .skip-link:focus { left: 0; }
@@ -328,9 +329,9 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
 }
 .btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
 .btn--primary {
-  background: var(--accent); border-color: var(--accent); color: #05140C; font-weight: 600;
+  background: var(--accent); border-color: var(--accent); color: #FFFFFF; font-weight: 600;
 }
-.btn--primary:hover { background: var(--hot); border-color: var(--hot); color: #14140A; }
+.btn--primary:hover { background: var(--hot); border-color: var(--hot); color: #FFFFFF; }
 
 /* Hero figure panel */
 .hero__figure {
@@ -338,7 +339,8 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   background:
-    radial-gradient(120% 100% at 70% 0%, #141A24 0%, var(--panel) 55%, #0C1016 100%);
+    radial-gradient(120% 100% at 70% 0%, #FFFFFF 0%, var(--panel) 55%, #F1F4F8 100%);
+  box-shadow: 0 1px 3px rgba(12, 32, 67, 0.06), 0 8px 24px rgba(12, 32, 67, 0.06);
   overflow: hidden;
   aspect-ratio: 1 / 1;
 }
@@ -382,6 +384,7 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
 
 .card {
   background: var(--panel);
+  box-shadow: 0 1px 2px rgba(12, 32, 67, 0.05);
   padding: clamp(1.3rem, 2.4vw, 1.9rem);
   display: flex; flex-direction: column; gap: 0.85rem;
   transition: background var(--t-med);
@@ -420,6 +423,7 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
   border-radius: var(--r-md);
   background: var(--panel);
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(12, 32, 67, 0.06), 0 8px 24px rgba(12, 32, 67, 0.06);
 }
 
 .explorer__bar {
@@ -452,7 +456,7 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
   transition: background var(--t-fast), color var(--t-fast);
 }
 .seg button:hover { color: var(--fg); background: var(--raised); }
-.seg button[aria-pressed="true"] { background: var(--accent); color: #05140C; font-weight: 600; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: #FFFFFF; font-weight: 600; }
 
 .explorer__stage {
   position: relative;
@@ -467,7 +471,7 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
   aspect-ratio: 16 / 10;
   min-height: 300px;
   background:
-    radial-gradient(130% 110% at 50% 10%, #12171F 0%, var(--panel) 60%, #0B0E13 100%);
+    radial-gradient(130% 110% at 50% 10%, #FFFFFF 0%, var(--panel) 60%, #F3F6F9 100%);
   touch-action: none;
 }
 .explorer__plot canvas { width: 100%; height: 100%; cursor: crosshair; }
@@ -497,7 +501,7 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
 .legend__item[aria-pressed="false"] { opacity: 0.38; }
 .legend__swatch {
   width: 0.7rem; height: 0.7rem; border-radius: 2px; flex: none;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.14) inset;
+  box-shadow: 0 0 0 1px rgba(12, 32, 67, 0.12) inset;
 }
 .legend__name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .legend__n { flex: none; color: var(--fg-faint); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
@@ -531,7 +535,7 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
 .plotkey__dot {
   width: 0.62rem; height: 0.62rem; border-radius: 50%;
   align-self: center;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.15) inset;
+  box-shadow: 0 0 0 1px rgba(12, 32, 67, 0.12) inset;
 }
 .plotkey__name { color: var(--fg); font-weight: 600; white-space: nowrap; }
 .plotkey__note { color: var(--fg-faint); white-space: nowrap; }
@@ -570,7 +574,7 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
   font: 500 0.72rem/1.55 var(--mono);
   color: var(--fg);
   white-space: nowrap;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+  box-shadow: 0 8px 24px rgba(12, 32, 67, 0.14);
   transition: opacity var(--t-fast);
 }
 .tip[data-on="true"] { opacity: 1; }
@@ -987,7 +991,7 @@ table.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
 }
 
 /* --- 17. Color scheme --------------------------------------------------
-   No prefers-color-scheme override: this design is committed to dark, and
-   `color-scheme: dark` on :root above tells the browser to render form
-   controls and scrollbars to match.
+   No prefers-color-scheme override: this design is committed to light (the
+   background is Arc Institute's #F7F9FB), and `color-scheme: light` on :root
+   above tells the browser to render form controls and scrollbars to match.
    ------------------------------------------------------------------------ */

@@ -12,8 +12,8 @@
 import {
   createScatter, loadEmbedding,
   categoricalColor, viridisGradient,
-} from './scatter.js?v=202610271433';
-import { mountCohort, loadCohort } from './cohort.js?v=202610271433';
+} from './scatter.js?v=202610271549';
+import { mountCohort, loadCohort } from './cohort.js?v=202610271549';
 
 const DATA_URL = new URL('../data/embedding.json', import.meta.url).href;
 const COHORT_URL = new URL('../data/cohort.json', import.meta.url).href;
@@ -356,7 +356,7 @@ function mountExplorer(data) {
 
   if (capEl && data.meta.caption) {
     capEl.replaceChildren(
-      el('b', null, 'Figure 1. '),
+      el('b', null, 'Figure 2. '),
       document.createTextNode(data.meta.caption),
     );
   }

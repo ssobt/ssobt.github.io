@@ -23,12 +23,12 @@ const TAU = Math.PI * 2;
 const MAX_DPR = 2;
 
 const COL = {
-  q25:  '#56B4E9',
-  q75:  '#E69F00',
-  mid:  '#3A4352',
-  hot:  '#FDE725',
-  axis: '#2C3646',
-  text: '#8B98A9',
+  q25:  '#0072B2',
+  q75:  '#D55E00',
+  mid:  '#9AA5B4',
+  hot:  '#0C2043',
+  axis: '#DDE3EA',
+  text: '#5E6C82',
 };
 
 const Q25 = 0, MID = 1, Q75 = 2;
@@ -304,13 +304,13 @@ export function mountCohort(data, root) {
       const cx = PAD.l + w * (q === Q25 ? 0.30 : 0.70);
       const bw = Math.min(104, w * 0.19);
       const top = yOf(s.q3), bot = yOf(s.q1);
-      ctx.fillStyle = 'rgba(10,12,16,0.55)';
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
       ctx.fillRect(cx - bw / 2, top, bw, bot - top);
       ctx.strokeStyle = q === Q25 ? COL.q25 : COL.q75;
       ctx.lineWidth = 1.2;
       ctx.strokeRect(cx - bw / 2, top, bw, bot - top);
       // Median in the foreground color so it reads against the points.
-      ctx.strokeStyle = '#E6EDF3';
+      ctx.strokeStyle = '#0C2043';
       ctx.lineWidth = 2.6;
       ctx.beginPath();
       ctx.moveTo(cx - bw / 2 - 4, yOf(s.med));

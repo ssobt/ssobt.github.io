@@ -25,7 +25,7 @@ import argparse
 import json
 import os
 
-PALETTE = ["#56B4E9", "#E69F00", "#009E73"]
+PALETTE = ["#0072B2", "#D55E00", "#009E73"]
 
 W, H = 1200, 630
 PANEL_X, PANEL_Y, PANEL_SIZE = 700, 80, 470
@@ -45,7 +45,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--data", default="assets/data/embedding.json")
     ap.add_argument("--output", default="assets/img/og.svg")
-    ap.add_argument("--label", default="perturbation",
+    ap.add_argument("--label", default="target",
                     help="labelSet used to color the dots")
     args = ap.parse_args()
 
@@ -75,15 +75,15 @@ def main() -> int:
         layers.append(f'<g fill="{PALETTE[gi % len(PALETTE)]}" opacity="0.85">{dots}</g>')
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
-<rect width="{W}" height="{H}" fill="#0A0C10"/>
-<rect x="0" y="0" width="{W}" height="4" fill="#35B779"/>
+<rect width="{W}" height="{H}" fill="#F7F9FB"/>
+<rect x="0" y="0" width="{W}" height="4" fill="#146B45"/>
 {"".join(layers)}
-<text x="80" y="214" fill="#35B779" font-family="{MONO}" font-size="21" letter-spacing="3.4">{EYEBROW}</text>
-<text x="76" y="316" fill="#E6EDF3" font-family="{SANS}" font-size="82" font-weight="650" letter-spacing="-2.6">{HEADLINE}</text>
-<text x="80" y="372" fill="#8B98A9" font-family="{MONO}" font-size="23">{ROLE}</text>
-<text x="80" y="446" fill="#8B98A9" font-family="{SANS}" font-size="27">{PITCH[0]}</text>
-<text x="80" y="482" fill="#8B98A9" font-family="{SANS}" font-size="27">{PITCH[1]}</text>
-<text x="80" y="556" fill="#5B6675" font-family="{MONO}" font-size="19">{URL}</text>
+<text x="80" y="214" fill="#146B45" font-family="{MONO}" font-size="21" letter-spacing="3.4">{EYEBROW}</text>
+<text x="76" y="316" fill="#0C2043" font-family="{SANS}" font-size="82" font-weight="650" letter-spacing="-2.6">{HEADLINE}</text>
+<text x="80" y="372" fill="#44546E" font-family="{MONO}" font-size="23">{ROLE}</text>
+<text x="80" y="446" fill="#44546E" font-family="{SANS}" font-size="27">{PITCH[0]}</text>
+<text x="80" y="482" fill="#44546E" font-family="{SANS}" font-size="27">{PITCH[1]}</text>
+<text x="80" y="556" fill="#5E6C82" font-family="{MONO}" font-size="19">{URL}</text>
 </svg>'''
 
     os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
