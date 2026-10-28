@@ -602,6 +602,17 @@ a:hover { color: var(--hot); text-decoration-color: currentColor; }
 }
 .figcap b { color: var(--fg-muted); font-weight: 600; }
 
+/* Static image figure, framed like the interactive ones. */
+.imgfig {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--panel);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(12, 32, 67, 0.06), 0 8px 24px rgba(12, 32, 67, 0.06);
+}
+.imgfig img { display: block; width: 100%; height: auto; }
+
 /* Accessible data table mirroring the canvas */
 .datatable { margin-top: 1rem; }
 .datatable > summary {
