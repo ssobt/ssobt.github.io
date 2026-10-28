@@ -12,8 +12,8 @@
 import {
   createScatter, loadEmbedding,
   categoricalColor, viridisGradient,
-} from './scatter.js?v=202610280052';
-import { mountCohort, loadCohort } from './cohort.js?v=202610280052';
+} from './scatter.js?v=202610280102';
+import { mountCohort, loadCohort } from './cohort.js?v=202610280102';
 
 const DATA_URL = new URL('../data/embedding.json', import.meta.url).href;
 const COHORT_URL = new URL('../data/cohort.json', import.meta.url).href;
