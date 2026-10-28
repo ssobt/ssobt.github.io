@@ -683,10 +683,24 @@ table.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
 .step__links a::after { content: " ↗"; color: var(--fg-faint); }
 .step__links a[data-internal]::after { content: " →"; }
 
+/* A step with a figure beside its text; stacks below 900px. */
+.step__split {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 26rem);
+  gap: 1.5rem 2.25rem;
+  align-items: start;
+}
+.step__split .step__text { grid-column: auto; }
+@media (max-width: 900px) {
+  .step__split { grid-template-columns: minmax(0, 1fr); }
+  .step__fig { max-width: 30rem; }
+}
+
 /* The rail is a left margin on wide screens and disappears on narrow ones. */
 @media (max-width: 680px) {
   .step { grid-template-columns: 1fr; }
-  .step__title, .step__text { grid-column: 1; }
+  .step__title, .step__text, .step__split { grid-column: 1; }
 }
 
 .figure-block { margin-block: 0.5rem 1.5rem; }

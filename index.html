@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/site.css?v=202610280033">
+<link rel="stylesheet" href="assets/css/site.css?v=202610280052">
 <script>document.documentElement.className = 'js';</script>
 </head>
 <body>
@@ -381,7 +381,7 @@
       <!-- ---------- step 2 ---------- -->
       <div class="step reveal">
         <p class="step__label">Step 02 · Single-cell validation</p>
-        <h3 class="step__title">Validate in cell lines: watch the effect cell by cell</h3>
+        <h3 class="step__title">Validate: watch the effect cell by cell</h3>
         <div class="step__text">
           <p>
             A pattern in patient data is a lead, not proof. Also, patient data compares tumors with each other. The real claim is about cells
@@ -507,24 +507,42 @@
       <div class="step reveal">
         <p class="step__label">Step 03 · Why it matters</p>
         <h3 class="step__title">Apply: Tuning heterogeneity down complements chemotherapy and changes tumor response</h3>
-        <div class="step__text">
-          <p>
-            <strong>Lowering either gene made cancer cells more sensitive to
-            chemotherapy and, in mice, reduced their spread to the lung.</strong>
-            Raising it did the opposite. The result held in a second, independently
-            engineered cell line.
-          </p>
-          <p>
-            It holds in patients too. In a separate breast cancer cohort (METABRIC),
-            high levels of either gene predict shorter survival; for MIS18A the hazard
-            is 75% higher (<code>HR = 1.75</code>). That makes these genes both a
-            marker of worse outcome and a potential drug target.
-          </p>
-          <p class="step__links">
-            <a href="projects/ith.html" data-internal>Full write-up</a>
-            <a href="https://doi.org/10.64898/2026.04.18.719392" rel="noopener">Preprint</a>
-            <a href="https://github.com/ssobt/txnheterogeneity" rel="noopener">The method, packaged</a>
-          </p>
+        <div class="step__split">
+          <div class="step__text">
+            <p>
+              <strong>Lowering either gene made cancer cells more sensitive to
+              chemotherapy and, in mice, reduced their spread to the lung.</strong>
+              Raising it did the opposite. The result held in a second, independently
+              engineered cell line.
+            </p>
+            <p>
+              It holds in patients too. In a separate breast cancer cohort (METABRIC),
+              high levels of either gene predict shorter survival; for MIS18A the hazard
+              is 75% higher (<code>HR = 1.75</code>). That makes these genes both a
+              marker of worse outcome and a potential drug target.
+            </p>
+            <p class="step__links">
+              <a href="projects/ith.html" data-internal>Full write-up</a>
+              <a href="https://doi.org/10.64898/2026.04.18.719392" rel="noopener">Preprint</a>
+              <a href="https://github.com/ssobt/txnheterogeneity" rel="noopener">The method, packaged</a>
+            </p>
+          </div>
+          <figure class="imgfig step__fig">
+            <picture>
+              <source srcset="assets/img/chemo.webp" type="image/webp">
+              <img src="assets/img/chemo.jpg" width="1200" height="1042"
+                   alt="Bar chart of cell death signal in MDA-MB-231 CRISPRi lines. With vehicle, non-targeting, RNF8 and MIS18A knockdown cells show similarly low death. With cyclophosphamide, death rises to about 75,000 in controls, 258,000 with RNF8 knockdown, and 165,000 with MIS18A knockdown; both knockdowns differ from control at P below 0.0001."
+                   decoding="async">
+            </picture>
+            <figcaption class="figcap">
+              <b>Figure 4. </b>Turning either gene down makes cancer cells easier to
+              kill. Cell death in MDA-MB-231 CRISPRi lines after 48 h with
+              cyclophosphamide (2.5 mM) or vehicle, by live-dead imaging. Knockdown on
+              its own changes nothing; with the drug, RNF8 and MIS18A knockdowns show
+              about 3× and 2× the death signal of non-targeting controls. P-values by
+              one-way ANOVA, n = 8 per condition (preprint Fig. 5A).
+            </figcaption>
+          </figure>
         </div>
       </div>
 
@@ -825,7 +843,7 @@
   </div>
 </footer>
 
-<script type="module" src="assets/js/explorer.js?v=202610280033"></script>
-<script type="module" src="assets/js/site.js?v=202610280033"></script>
+<script type="module" src="assets/js/explorer.js?v=202610280052"></script>
+<script type="module" src="assets/js/site.js?v=202610280052"></script>
 </body>
 </html>
