@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/site.css?v=202610271549">
+<link rel="stylesheet" href="assets/css/site.css?v=202610272350">
 <script>document.documentElement.className = 'js';</script>
 </head>
 <body>
@@ -270,7 +270,7 @@
       <p class="section__lede">
         One project from start to finish. The short version:
       </p>
-      <ol class="tldr">
+      <ul class="tldr">
         <li><span>Some tumors are made of cells that all act alike. Others are a
           patchwork, and the patchwork ones are harder to treat.</span></li>
         <li><span>In over a thousand patient tumors, we looked for genes that are associated with
@@ -280,7 +280,7 @@
           alike.</span></li>
         <li><span>Turning off either gene made cancer cells easier to kill with chemotherapy.
           We also found that patients with high levels of these genes had shorter survival.</span></li>
-      </ol>
+      </ul>
       <p class="section__lede section__lede--after">
         In the panels below, you can explore how these genes affect heterogeneity in both patient tumors and cells from cancer cell lines.
       </p>
@@ -291,7 +291,7 @@
       <!-- ---------- step 1 ---------- -->
       <div class="step reveal">
         <p class="step__label">Step 01 · Patient data</p>
-        <h3 class="step__title">Generating leads: Which genes come with more varied tumors?</h3>
+        <h3 class="step__title">Generate leads: Which genes come with more varied tumors?</h3>
         <div class="step__text">
           <p>
             Most cancer studies ask which genes are <em>higher</em> in aggressive
@@ -380,11 +380,12 @@
 
       <!-- ---------- step 2 ---------- -->
       <div class="step reveal">
-        <p class="step__label">Step 02 · Wet-lab collaboration</p>
-        <h3 class="step__title">Test the candidates in living cells</h3>
+        <p class="step__label">Step 02 · Single-cell validation</p>
+        <h3 class="step__title">Validate in cell lines: watch the effect cell by cell</h3>
         <div class="step__text">
           <p>
-            A pattern in patient data is a lead, not proof. Working with the bench side
+            A pattern in patient data is a lead, not proof. Also, patient data compares tumors with each other. The real claim is about cells
+            <em>within</em> a tumor, so we looked at single cells. Working with the bench side
             of the lab, we took 16 of the 41 candidates into a CRISPR screen in breast
             cancer cells (MDA-MB-231). Each gene was turned down (CRISPRi) or up
             (CRISPRa), and every cell's transcriptome was read out (Perturb-seq).
@@ -394,18 +395,6 @@
             which helps repair DNA damage, and <strong>MIS18A</strong>, part of the
             machinery that marks centromeres, the anchor points chromosomes use during
             cell division. Neither had been linked to tumor variability before.
-          </p>
-        </div>
-      </div>
-
-      <!-- ---------- step 3 ---------- -->
-      <div class="step reveal">
-        <p class="step__label">Step 03 · Single-cell validation</p>
-        <h3 class="step__title">Watch the effect cell by cell</h3>
-        <div class="step__text">
-          <p>
-            Patient data compares tumors with each other. The real claim is about cells
-            <em>within</em> a tumor, so we looked at single cells.
           </p>
           <p>
             <strong>Turning down either gene made the cells more alike.</strong>
@@ -493,10 +482,10 @@
         </details>
       </div>
 
-      <!-- ---------- step 4 ---------- -->
+      <!-- ---------- step 3 ---------- -->
       <div class="step reveal">
-        <p class="step__label">Step 04 · Why it matters</p>
-        <h3 class="step__title">Show it changes how tumors respond</h3>
+        <p class="step__label">Step 03 · Why it matters</p>
+        <h3 class="step__title">Apply: Tuning heterogeneity down complements chemotherapy and changes tumor response</h3>
         <div class="step__text">
           <p>
             <strong>Lowering either gene made cancer cells more sensitive to
@@ -815,7 +804,7 @@
   </div>
 </footer>
 
-<script type="module" src="assets/js/explorer.js?v=202610271549"></script>
-<script type="module" src="assets/js/site.js?v=202610271549"></script>
+<script type="module" src="assets/js/explorer.js?v=202610272350"></script>
+<script type="module" src="assets/js/site.js?v=202610272350"></script>
 </body>
 </html>

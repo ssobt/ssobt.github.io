@@ -686,17 +686,16 @@ table.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
   grid-column: 2;
   max-width: var(--measure);
   margin: 1.1rem 0 0; padding: 0;
-  list-style: none; counter-reset: tldr;
+  list-style: none;
   display: grid; gap: 0.7rem;
 }
 .tldr li {
-  counter-increment: tldr;
-  display: grid; grid-template-columns: 2.1rem minmax(0, 1fr);
+  display: grid; grid-template-columns: 1.4rem minmax(0, 1fr);
   color: var(--fg); font-size: 1.02rem; line-height: 1.55;
 }
 .tldr li::before {
-  content: counter(tldr, decimal-leading-zero);
-  font: 600 0.74rem/2.1 var(--mono); color: var(--accent);
+  content: "•";
+  font-size: 1.3rem; line-height: 1.2; color: var(--accent);
 }
 .tldr strong { color: var(--accent); font-weight: 600; }
 .section__lede--after { margin-top: 1.1rem; font-size: 0.92rem; }
